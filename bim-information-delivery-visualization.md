@@ -2,7 +2,11 @@
 
 ## Overview
 
-Building Information Modeling (BIM) processes involve the collaborative generation and management of digital representations of physical and functional characteristics of places. To ensure interoperability and effective information delivery, standards and specifications such as **IDM (Information Delivery Manual)**, **MVD (Model View Definition)**, and **IFC (Industry Foundation Classes)** are employed. This document presents visualizations and diagrams to explain how these standards interact, how data flows among them, and how to ensure quality in multi-stakeholder environments.
+Building Information Modeling (BIM) processes involve the collaborative generation and management of digital representations of physical and functional characteristics of places. To ensure interoperability and seamless information exchanges, clearly visualizing the process, data flows, and quality controls is essential.
+
+---
+
+> **Note:** Diagrams below use Mermaid. To view Mermaid diagrams in GitHub, click "Open in Preview" or use a browser plugin/Markdown viewer that supports Mermaid. If diagrams do not render, verify that your viewer or platform supports Mermaid syntax.
 
 ---
 
@@ -33,11 +37,11 @@ flowchart TD
 
 ```mermaid
 graph LR
-    IDM[IDM<br/>(Process Maps, Exchange Requirements)] --Defines--> MVD[MVD<br/>(Subset of IFC)]
-    MVD --Constraints on--> IFC[IFC<br/>(Data Model)]
-    Stakeholder1 -.Provides Requirements.-> IDM
-    Stakeholder2 -.Consumes Data.-> IFC
-    IFC --Exchange--> Stakeholder2
+    IDM[IDM<br>(Process Maps, Exchange Requirements)] -- Defines --> MVD[MVD<br>(Subset of IFC)]
+    MVD -- Constraints on --> IFC[IFC<br>(Data Model)]
+    Stakeholder1 -. Provides Requirements .-> IDM
+    Stakeholder2 -. Consumes Data .-> IFC
+    IFC -- Exchange --> Stakeholder2
 ```
 
 ---
@@ -64,14 +68,14 @@ sequenceDiagram
 
 ### Key Metrics
 
-| Metric                     | Description                                              | Measurement Method                 |
-|----------------------------|---------------------------------------------------------|------------------------------------|
-| Completeness               | Are all required data fields populated?                  | Automated checks; manual review    |
-| Consistency                | Is the data logically consistent across the model?       | Schema validation; clash detection |
-| Conformance to MVD         | Does the data conform to the MVD specification?          | MVD-based validation tools         |
-| Correctness                | Are the values accurate and up-to-date?                  | Spot checks; domain expert review  |
-| Traceability               | Can data changes be traced to responsible stakeholders?  | Audit trails; version control      |
-| Timeliness                 | Was information delivered according to schedule?         | Workflow monitoring                |
+| Metric                   | Description                                            | Measurement Method                |
+|--------------------------|-------------------------------------------------------|-----------------------------------|
+| Completeness             | Are all required data fields populated?                | Automated checks; manual review   |
+| Consistency              | Is the data logically consistent across the model?     | Schema validation; clash detection|
+| Conformance to MVD       | Does the data conform to the MVD specification?        | MVD-based validation tools        |
+| Correctness              | Are the values accurate and up-to-date?                | Spot checks; domain expert review |
+| Traceability             | Can data changes be traced to responsible stakeholders?| Audit trails; version control     |
+| Timeliness               | Was information delivered according to schedule?       | Workflow monitoring               |
 
 ---
 
@@ -110,10 +114,10 @@ flowchart TD
     S1[Stakeholder Requirement (IDM)] --> S2[Model Authoring (MVD)]
     S2 --> S3[Data Export (IFC)]
     S3 --> S4[Automated Validation]
-    S4 --Pass--> S5[Stakeholder Review]
-    S4 --Fail--> S2
-    S5 --Approve--> S6[Information Delivery]
-    S5 --Reject--> S2
+    S4 -- Pass --> S5[Stakeholder Review]
+    S4 -- Fail --> S2
+    S5 -- Approve --> S6[Information Delivery]
+    S5 -- Reject --> S2
 ```
 
 ---
