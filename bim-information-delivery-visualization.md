@@ -37,8 +37,8 @@ flowchart TD
 
 ```mermaid
 graph LR
-    IDM[IDM<br>(Process Maps, Exchange Requirements)] -- Defines --> MVD[MVD<br>(Subset of IFC)]
-    MVD -- Constraints on --> IFC[IFC<br>(Data Model)]
+    IDM["IDM\n(Process Maps, Exchange Requirements)"] -- Defines --> MVD["MVD\n(Subset of IFC)"]
+    MVD -- Constraints on --> IFC["IFC\n(Data Model)"]
     Stakeholder1 -. Provides Requirements .-> IDM
     Stakeholder2 -. Consumes Data .-> IFC
     IFC -- Exchange --> Stakeholder2
@@ -129,5 +129,3 @@ flowchart TD
 - [IFC Schema Documentation](https://technical.buildingsmart.org/standards/ifc/)
 - [Solibri Model Checker](https://www.solibri.com/)
 - [BIMCollab Zoom](https://www.bimcollab.com/en/solutions/zoom/)
-
----
