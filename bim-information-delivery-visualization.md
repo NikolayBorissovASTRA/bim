@@ -86,12 +86,12 @@ sequenceDiagram
 ```mermaid
 flowchart LR
     A[Information Provision] --> B[Automated Validation (IFC/MVD)]
-    B --> C{Passes Validation?}
+    B --> C((Passes Validation?))
     C -- Yes --> D[Release for Next Stage]
     C -- No --> E[Feedback to Provider]
     E --> A
     D --> F[Stakeholder Review]
-    F --> G[Final Acceptance / Iteration]
+    F --> G((Final Acceptance / Iteration))
     G -- Issues Found --> E
     G -- Accepted --> H[Project Progresses]
 ```
