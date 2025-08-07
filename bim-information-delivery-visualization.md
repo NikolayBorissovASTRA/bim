@@ -111,7 +111,7 @@ flowchart LR
 
 ```mermaid
 flowchart TD
-    S1[Stakeholder Requirement (IDM)] --> S2[Model Authoring (MVD)]
+    S1[Stakeholder Requirement IDM] --> S2[Model Authoring MVD]
     S2 --> S3[Data Export IFC]
     S3 --> S4[Automated Validation]
     S4 -- Pass --> S5[Stakeholder Review]
