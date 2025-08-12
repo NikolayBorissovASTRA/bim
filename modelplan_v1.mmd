@@ -1,0 +1,250 @@
+classDiagram
+
+%% Master Model
+class MasterModel {
+  format : NWD
+  purpose : Coordination and clash detection
+}
+
+%% Architectural Model
+class ArchitecturalModel {
+  discipline : Architecture
+  format : RVT
+  LOD : 300-500
+  purpose : Design, documentation, visualization
+}
+MasterModel --> ArchitecturalModel
+
+class site_model {
+  purpose : Building placement and site grading
+}
+class floor_plans {
+  purpose : Space planning and layouts
+}
+class roof_model {
+  purpose : Roof design and integration
+}
+class interior_design {
+  purpose : Interior finishes, partitions, design elements
+}
+class furniture_equipment {
+  purpose : Layout of fixed and movable equipment
+}
+ArchitecturalModel --> site_model
+ArchitecturalModel --> floor_plans
+ArchitecturalModel --> roof_model
+ArchitecturalModel --> interior_design
+ArchitecturalModel --> furniture_equipment
+
+%% Structural Model
+class StructuralModel {
+  discipline : Structural Engineering
+  format : RVT
+  LOD : 300-500
+  purpose : Structural analysis, load path definition
+}
+MasterModel --> StructuralModel
+
+class foundations {
+  purpose : Footings, piles, mat slabs
+}
+class columns_beams {
+  purpose : Vertical and horizontal structural elements
+}
+class slabs {
+  purpose : Floor and roof systems
+}
+class structural_connections {
+  purpose : Welds, bolts, and mechanical joints
+}
+StructuralModel --> foundations
+StructuralModel --> columns_beams
+StructuralModel --> slabs
+StructuralModel --> structural_connections
+
+%% MEP Model
+class MEPModel {
+  discipline : MEP Engineering
+  format : RVT
+  LOD : 300-500
+  purpose : Coordination of services
+}
+MasterModel --> MEPModel
+
+%% Mechanical
+class hvac_ducts {
+  purpose : Air distribution systems
+}
+class mechanical_equipment {
+  purpose : HVAC units, chillers, boilers
+}
+class mechanical_piping {
+  purpose : Condensate, hydronic piping
+}
+MEPModel --> hvac_ducts
+MEPModel --> mechanical_equipment
+MEPModel --> mechanical_piping
+
+%% Electrical
+class lighting {
+  purpose : Light fixtures and circuits
+}
+class power_distribution {
+  purpose : Panels, switchboards, outlets
+}
+class fire_alarm {
+  purpose : Alarm devices and control panels
+}
+MEPModel --> lighting
+MEPModel --> power_distribution
+MEPModel --> fire_alarm
+
+%% Plumbing
+class water_supply {
+  purpose : Domestic water systems
+}
+class drainage {
+  purpose : Waste and storm systems
+}
+class fixtures {
+  purpose : Toilets, sinks, showers
+}
+MEPModel --> water_supply
+MEPModel --> drainage
+MEPModel --> fixtures
+
+%% Civil Model
+class CivilModel {
+  discipline : Civil Engineering
+  format : DWG / IFC
+  LOD : 200-400
+  purpose : Site planning, grading, utilities
+}
+MasterModel --> CivilModel
+
+class topography {
+  purpose : Site terrain and elevation
+}
+class roads_pavements {
+  purpose : Onsite and offsite access roads
+}
+class utilities {
+  purpose : Water, sewer, stormwater layouts
+}
+class retaining_structures {
+  purpose : Earth-retaining walls and barriers
+}
+CivilModel --> topography
+CivilModel --> roads_pavements
+CivilModel --> utilities
+CivilModel --> retaining_structures
+
+%% Landscape Model
+class LandscapeModel {
+  discipline : Landscape Architecture
+  format : RVT / IFC
+  LOD : 200-300
+  purpose : Site aesthetics and usability
+}
+MasterModel --> LandscapeModel
+
+class softscape {
+  purpose : Lawns, trees, plantings
+}
+class hardscape {
+  purpose : Pathways, paving, plazas
+}
+class site_furniture {
+  purpose : Benches, lighting, signage
+}
+LandscapeModel --> softscape
+LandscapeModel --> hardscape
+LandscapeModel --> site_furniture
+
+%% Construction Model
+class ConstructionModel {
+  discipline : Construction Management
+  format : NWD / SYNCHRO
+  LOD : 400
+  purpose : Construction sequencing and logistics
+}
+MasterModel --> ConstructionModel
+
+class construction_sequencing {
+  purpose : 4D simulation and planning
+}
+class temporary_works {
+  purpose : Scaffolding, cranes, shoring
+}
+class logistics_planning {
+  purpose : Site access, material staging
+}
+ConstructionModel --> construction_sequencing
+ConstructionModel --> temporary_works
+ConstructionModel --> logistics_planning
+
+%% Cost Model
+class CostModel {
+  discipline : Quantity Surveying / Estimating
+  format : XLSX / 5D BIM
+  LOD : 300-400
+  purpose : Quantity takeoff and cost estimation
+}
+MasterModel --> CostModel
+
+class quantity_takeoffs {
+  purpose : Material and labor quantification
+}
+class cost_data {
+  purpose : Linked pricing and budget analysis
+}
+CostModel --> quantity_takeoffs
+CostModel --> cost_data
+
+%% As-Built Model
+class AsBuiltModel {
+  discipline : All disciplines
+  format : RVT / IFC
+  LOD : 500
+  purpose : Final record model for handover
+}
+MasterModel --> AsBuiltModel
+
+class verified_architecture {
+  purpose : As-built architectural conditions
+}
+class verified_structural {
+  purpose : As-built structural system
+}
+class verified_mep {
+  purpose : As-installed MEP systems
+}
+class asset_data {
+  purpose : Equipment metadata and barcodes
+}
+AsBuiltModel --> verified_architecture
+AsBuiltModel --> verified_structural
+AsBuiltModel --> verified_mep
+AsBuiltModel --> asset_data
+
+%% Facility Management Model
+class FacilityManagementModel {
+  discipline : FM / Operations
+  format : IFC / COBie / RVT
+  LOD : 500
+  purpose : Operation and maintenance management
+}
+MasterModel --> FacilityManagementModel
+
+class equipment_metadata {
+  purpose : Serial numbers, warranty, specs
+}
+class maintenance_schedules {
+  purpose : Preventive and reactive tasks
+}
+class om_manuals {
+  purpose : Linked PDFs and instructions
+}
+FacilityManagementModel --> equipment_metadata
+FacilityManagementModel --> maintenance_schedules
+FacilityManagementModel --> om_manuals
