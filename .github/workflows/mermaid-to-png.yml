@@ -1,0 +1,40 @@
+name: Convert Mermaid to PNG
+
+on:
+  push:
+    paths:
+      - '**/*.mmd'
+  workflow_dispatch:
+
+jobs:
+  convert-mermaid:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install mermaid-cli
+        run: npm install -g @mermaid-js/mermaid-cli
+
+      - name: Convert Mermaid files to PNG
+        run: |
+          mkdir -p diagrams_png
+          for file in $(find . -name "*.mmd"); do
+            filename=$(basename "$file" .mmd)
+            mmdc -i "$file" -o "diagrams_png/$filename.png" -b transparent
+            echo "Converted $file -> diagrams_png/$filename.png"
+          done
+
+      - name: Commit and push PNGs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add diagrams_png/*.png
+          git commit -m "Auto-generated PNGs from Mermaid diagrams" || echo "No changes to commit"
+          git push
