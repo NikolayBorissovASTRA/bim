@@ -46,3 +46,21 @@ flowchart TD
   M1 --> M2
   QA1 --> QA3
 ```
+
+```mermaid
+gantt
+    dateFormat  YYYY-MM-DD
+    title Team Availability - August 2025
+    excludes    weekends
+
+    section Alice
+    Available       :a1, 2025-08-11, 5d
+    Vacation        :a2, 2025-08-18, 3d
+
+    section Bob
+    Sick Leave      :b1, 2025-08-11, 2d
+    Available       :b2, 2025-08-13, 7d
+
+    section Carol
+    Available       :c1, 2025-08-11, 10d
+```
