@@ -27,7 +27,7 @@ jobs:
           mkdir -p diagrams/png
           for f in $(find . -name "*.mmd"); do
             fname=$(basename "$f" .mmd)
-            mmdc -i "$f" -o "diagrams/png/$fname.png"
+            mmdc -i "$f" -o "diagrams/png/$fname.png" --puppeteerConfigFile puppeteer-config.json
           done
 
       - name: Commit and push PNGs
