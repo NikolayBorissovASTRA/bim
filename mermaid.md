@@ -16,45 +16,26 @@ o--	Aggregation
 ```mermaid
 classDiagram
   direction TB
-
-  class ModelPlan {
-    +guid: string
-    +code: string
-    +label: LangString[]
-    +comment: LangString[]
-    +version: string
-    +status: string
-  }
-
   class Model {
     +guid: string
     +code: string
     +label: LangString[]
     +comment: LangString[]
-    +role: ModelRole          // Federated|Domain|Sub
-    +discipline: string       // enum (e.g., TRA, STR, WLK, UMG, BSA, ...)
-    +presentationType: string // enum
-    +format: string           // enum
-    +phase: string            // enum
-    +ownerOrg: string
-    +responsibleParty: string
+    +discipline: string
+    +presentationType: string
+    +format: string
+    +phase: string
     +version: string
     +status: string
+    +ownerOrg: string
+    +responsibleParty: string
     +cdeLink: URI
-    +createdAt: datetime
-    +modifiedAt: datetime
   }
-
-  class LangString {
-    +lang: string
-    +value: string
-  }
-
-  class ModelRole {
-  }
+  class SubModel
+  class DomainModel
+  SubModel --|> Model
+  DomainModel --|> Model
 
   ModelPlan "1" o-- "0..*" Model : hasModel
-  Model "0..1" <-- "0..*" Model : parent
-  Model --> "0..*" LangString : label
-  Model --> "0..*" LangString : comment
+  Model "0..1" <-- "0..*" Model : parent   %% hierarchy for all subtypes
   ```
