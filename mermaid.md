@@ -31,6 +31,7 @@ classDiagram
     +responsibleParty: string
     +cdeLink: URI
   }
+  note for SubModel "BM	PM	MAW"
   class SubModel
   class DomainModel
   SubModel --|> Model
