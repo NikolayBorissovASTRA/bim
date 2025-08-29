@@ -217,6 +217,48 @@ flowchart TD
 ### 3.1 IFC Schema und Versionsanforderungen
 
 ```mermaid
+erDiagram
+    IFC_Infrastructure {
+        string schema "IFC 4.3 Infrastructure"
+        string version "4.3"
+        string project_id "Unique_ID"
+    }
+    
+    IFC_Road {
+        string road_id "Unique_Road_ID"
+        string road_type "Highway_Road_Street"
+        string classification "ASTRA_Category"
+    }
+    
+    IFC_Bridge {
+        string bridge_id "Unique_Bridge_ID"
+        string bridge_type "Beam_Arch_Suspension"
+        string material "Concrete_Steel_Composite"
+    }
+    
+    IFC_Tunnel {
+        string tunnel_id "Unique_Tunnel_ID"
+        string tunnel_type "Mountain_Shield_Cut"
+        string ventilation "Longitudinal_Transverse"
+    }
+    
+    ASTRA_Extensions {
+        string asset_id "ASTRA_Unique_ID"
+        string region "ASTRA_Region_1_to_7"
+        string maintenance_contract "Contract_Number"
+        date installation_date "ISO_Date"
+    }
+    
+    %% Relationships with correct syntax
+    IFC_Infrastructure ||--o{ IFC_Road : contains
+    IFC_Infrastructure ||--o{ IFC_Bridge : contains
+    IFC_Infrastructure ||--o{ IFC_Tunnel : contains
+    IFC_Road ||--|| ASTRA_Extensions : enhanced_by
+    IFC_Bridge ||--|| ASTRA_Extensions : enhanced_by
+    IFC_Tunnel ||--|| ASTRA_Extensions : enhanced_by
+```
+    
+```mermaid
 classDiagram
     direction TB
     
@@ -272,12 +314,15 @@ classDiagram
         +EnvironmentalData
     }
     
-    IFC_Infrastructure ||--o{ IFC_Road : contains
-    IFC_Infrastructure ||--o{ IFC_Bridge : contains
-    IFC_Infrastructure ||--o{ IFC_Tunnel : contains
-    IFC_Road ||--|| ASTRA_Extensions : enhanced_by
-    IFC_Bridge ||--|| ASTRA_Extensions : enhanced_by
-    IFC_Tunnel ||--|| ASTRA_Extensions : enhanced_by
+    %% Composition relationships
+    IFC_Infrastructure *-- IFC_Road : contains
+    IFC_Infrastructure *-- IFC_Bridge : contains
+    IFC_Infrastructure *-- IFC_Tunnel : contains
+    
+    %% Enhancement relationships
+    IFC_Road <|-- ASTRA_Extensions : enhances
+    IFC_Bridge <|-- ASTRA_Extensions : enhances
+    IFC_Tunnel <|-- ASTRA_Extensions : enhances
 ```
 
 ### 3.2 ASTRA-spezifische Property Sets
