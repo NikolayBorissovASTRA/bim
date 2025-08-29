@@ -142,7 +142,7 @@ flowchart TD
 ### 2.2 Level of Development (LOD) nach Projektphase
 
 ```mermaid
-graph LR
+graph TD
     subgraph "Vorstudien"
         V1[LOD 100<br/>Konzeptmodell]
         V2[Machbarkeitsstudien]
@@ -271,7 +271,6 @@ classDiagram
         +SafetyStandards
         +EnvironmentalData
     }
-    
     IFC_Infrastructure ||--o{ IFC_Road : "contains"
     IFC_Infrastructure ||--o{ IFC_Bridge : "contains"
     IFC_Infrastructure ||--o{ IFC_Tunnel : "contains"
