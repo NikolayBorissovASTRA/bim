@@ -4,7 +4,7 @@
 
 ## Executive Summary
 
-Diese Spezifikation definiert die Anforderungen an Building Information Modeling (BIM) und Industry Foundation Classes (IFC) für das Bundesamt für Strassen (ASTRA) im Kontext von Schweizer Infrastrukturprojekten. Die Anforderungen orientieren sich an internationalen Standards, schweizerischen Normen und spezifischen ASTRA-Bedürfnissen.
+Diese Spezifikation definiert die Anforderungen an Building Information Modeling (BIM) und Industry Foundation Classes (IFC) für das Bundesamt für Strassen (ASTRA) im Kontext von Schweizer Infrastrukturprojekten.
 
 ## 1. Strategische BIM-Anforderungen
 
@@ -36,13 +36,13 @@ mindmap
         Qualitätskontrolle
         Fortschrittsverfolgung
     Asset Management
-      Betrieb & Wartung
+      Betrieb und Wartung
         Facility Management
         Instandhaltungsplanung
         Performance Monitoring
         Predictive Maintenance
       Nachhaltigkeit
-        Lebenszyklus-Assessment
+        Lebenszyklus Assessment
         Energiemanagement
         Umweltauswirkungen
         Ressourcenoptimierung
@@ -54,22 +54,22 @@ mindmap
 gantt
     title ASTRA BIM Maturity Roadmap
     dateFormat YYYY-MM-DD
-    section Level 1: Foundation
+    section Level 1 Foundation
     BIM Standards Definition     :2024-01-01, 2024-06-30
-    Team Training & Certification :2024-03-01, 2024-09-30
+    Team Training and Certification :2024-03-01, 2024-09-30
     Pilot Projects              :2024-06-01, 2024-12-31
     
-    section Level 2: Implementation
+    section Level 2 Implementation
     CDE Platform Deployment     :2024-09-01, 2025-03-31
     IFC Workflows Integration   :2024-12-01, 2025-06-30
     Quality Assurance Framework :2025-01-01, 2025-09-30
     
-    section Level 3: Optimization
-    AI-Enhanced Coordination    :2025-06-01, 2026-03-31
+    section Level 3 Optimization
+    AI Enhanced Coordination    :2025-06-01, 2026-03-31
     Automated Compliance Check  :2025-09-01, 2026-06-30
     Digital Twin Integration    :2026-01-01, 2026-12-31
     
-    section Level 4: Innovation
+    section Level 4 Innovation
     Machine Learning Analytics  :2026-06-01, 2027-12-31
     Predictive Maintenance      :2026-09-01, 2027-12-31
     Autonomous Design Validation :2027-01-01, 2028-06-30
@@ -81,27 +81,27 @@ gantt
 
 ```mermaid
 flowchart TD
-    subgraph "Tiefbau & Infrastruktur"
-        T1[Trassierung & Gradiente]
-        T2[Strassenkörper & Beläge]
+    subgraph TB["Tiefbau und Infrastruktur"]
+        T1[Trassierung und Gradiente]
+        T2[Strassenkörper und Beläge]
         T3[Entwässerungssysteme]
-        T4[Verkehrssicherheit & FZRS]
-        T5[Signalisation & Markierung]
+        T4[Verkehrssicherheit und FZRS]
+        T5[Signalisation und Markierung]
         
         T1 --> T2 --> T3 --> T4 --> T5
     end
     
-    subgraph "Kunstbauten"
-        K1[Brücken & Überführungen]
-        K2[Tunnel & Unterführungen]
-        K3[Stützmauern & Böschungen]
+    subgraph KB["Kunstbauten"]
+        K1[Brücken und Überführungen]
+        K2[Tunnel und Unterführungen]
+        K3[Stützmauern und Böschungen]
         K4[Lärmschutzwände]
         K5[Spezialbauten]
         
         K1 --> K2 --> K3 --> K4 --> K5
     end
     
-    subgraph "Betriebsanlagen"
+    subgraph BA["Betriebsanlagen"]
         B1[Verkehrsleitsysteme]
         B2[Beleuchtung]
         B3[Energieversorgung]
@@ -111,9 +111,9 @@ flowchart TD
         B1 --> B2 --> B3 --> B4 --> B5
     end
     
-    subgraph "Umgebung & Landschaft"
+    subgraph UL["Umgebung und Landschaft"]
         U1[Geländemodell]
-        U2[Bepflanzung & Landschaftsbau]
+        U2[Bepflanzung und Landschaftsbau]
         U3[Gewässer]
         U4[Umweltschutzmaßnahmen]
         U5[Grundwassermanagement]
@@ -142,8 +142,8 @@ flowchart TD
 ### 2.2 Level of Development (LOD) nach Projektphase
 
 ```mermaid
-graph TD
-    subgraph "Vorstudien"
+flowchart TD
+    subgraph VS["Vorstudien"]
         V1[LOD 100<br/>Konzeptmodell]
         V2[Machbarkeitsstudien]
         V3[Variantenvergleich]
@@ -151,7 +151,7 @@ graph TD
         V1 --> V2 --> V3
     end
     
-    subgraph "Vorprojekt"
+    subgraph VP["Vorprojekt"]
         VP1[LOD 200<br/>Schemaentwurf]
         VP2[Grundsatzentscheide]
         VP3[Kostenrahmen]
@@ -159,7 +159,7 @@ graph TD
         VP1 --> VP2 --> VP3
     end
     
-    subgraph "Bauprojekt"
+    subgraph BP["Bauprojekt"]
         BP1[LOD 300<br/>Entwurfsplanung]
         BP2[Koordination Fachplaner]
         BP3[Bewilligungsverfahren]
@@ -167,7 +167,7 @@ graph TD
         BP1 --> BP2 --> BP3
     end
     
-    subgraph "Ausschreibung"
+    subgraph AS["Ausschreibung"]
         A1[LOD 350<br/>Ausschreibungsmodell]
         A2[Mengenermittlung]
         A3[Submission]
@@ -175,7 +175,7 @@ graph TD
         A1 --> A2 --> A3
     end
     
-    subgraph "Ausführung"
+    subgraph AF["Ausführung"]
         AU1[LOD 400<br/>Ausführungsmodell]
         AU2[Werkplanung]
         AU3[Bauüberwachung]
@@ -183,8 +183,8 @@ graph TD
         AU1 --> AU2 --> AU3
     end
     
-    subgraph "Betrieb"
-        B1[LOD 500<br/>As-Built Modell]
+    subgraph BT["Betrieb"]
+        B1[LOD 500<br/>As Built Modell]
         B2[Facility Management]
         B3[Lebenszyklus]
         
@@ -271,22 +271,23 @@ classDiagram
         +SafetyStandards
         +EnvironmentalData
     }
-    IFC_Infrastructure ||--o{ IFC_Road : "contains"
-    IFC_Infrastructure ||--o{ IFC_Bridge : "contains"
-    IFC_Infrastructure ||--o{ IFC_Tunnel : "contains"
-    IFC_Road ||--|| ASTRA_Extensions : "enhanced by"
-    IFC_Bridge ||--|| ASTRA_Extensions : "enhanced by"
-    IFC_Tunnel ||--|| ASTRA_Extensions : "enhanced by"
+    
+    IFC_Infrastructure ||--o{ IFC_Road : contains
+    IFC_Infrastructure ||--o{ IFC_Bridge : contains
+    IFC_Infrastructure ||--o{ IFC_Tunnel : contains
+    IFC_Road ||--|| ASTRA_Extensions : enhanced_by
+    IFC_Bridge ||--|| ASTRA_Extensions : enhanced_by
+    IFC_Tunnel ||--|| ASTRA_Extensions : enhanced_by
 ```
 
 ### 3.2 ASTRA-spezifische Property Sets
 
 ```mermaid
 erDiagram
-    ASTRA_ROAD ||--o{ ASTRA_ROAD_PROPERTIES : "has"
-    ASTRA_BRIDGE ||--o{ ASTRA_BRIDGE_PROPERTIES : "has"
-    ASTRA_TUNNEL ||--o{ ASTRA_TUNNEL_PROPERTIES : "has"
-    ASTRA_ASSET ||--o{ ASTRA_ASSET_PROPERTIES : "has"
+    ASTRA_ROAD ||--o{ ASTRA_ROAD_PROPERTIES : has
+    ASTRA_BRIDGE ||--o{ ASTRA_BRIDGE_PROPERTIES : has
+    ASTRA_TUNNEL ||--o{ ASTRA_TUNNEL_PROPERTIES : has
+    ASTRA_ASSET ||--o{ ASTRA_ASSET_PROPERTIES : has
     
     ASTRA_ROAD_PROPERTIES {
         string RoadCategory "Autobahn_Autostrasse_Hauptstrasse"
@@ -300,20 +301,20 @@ erDiagram
     }
     
     ASTRA_BRIDGE_PROPERTIES {
-        string BridgeType "Balken_Bogen_Hängebrücke"
+        string BridgeType "Balken_Bogen_Haengebruecke"
         string StructuralMaterial "Beton_Stahl_Verbund"
         decimal LoadCapacity "Tonnen"
         decimal SpanLength "Meter"
         string FoundationType "Flach_Pfahl_Brunnen"
         date LastInspection "ISO_Date"
-        string InspectionLevel "Hauptprüfung_Einfache_Prüfung"
-        string BridgeCondition "Sehr_gut_Gut_Genügend_Schlecht"
+        string InspectionLevel "Hauptpruefung_Einfache_Pruefung"
+        string BridgeCondition "Sehr_gut_Gut_Genuegend_Schlecht"
     }
     
     ASTRA_TUNNEL_PROPERTIES {
         string TunnelType "Bergstollen_Schildvortrieb_Deckelbauweise"
         decimal TunnelLength "Meter"
-        string VentilationType "Längs_Quer_Halbquer"
+        string VentilationType "Laengs_Quer_Halbquer"
         boolean EmergencyExit "Available"
         string FireProtection "Sprinkler_Schaum_Inertgas"
         string EscapeRoute "Primary_Secondary"
@@ -380,7 +381,7 @@ sequenceDiagram
 
 ### 4.2 ASTRA IFC Quality Assurance Framework
 
-````python name=astra_ifc_validator.py
+```python name=astra_ifc_validator.py
 """
 ASTRA IFC Quality Assurance Framework
 Author: NikolayBorissovASTRA
@@ -1040,36 +1041,56 @@ def demonstrate_astra_ifc_validation():
 
 if __name__ == "__main__":
     demonstrate_astra_ifc_validation()
-````
+```
 
 ## 5. Datenmanagement und Interoperabilität
 
 ### 5.1 ASTRA Common Data Environment (CDE) Architektur
 
 ```mermaid
-C4Context
-    title ASTRA Common Data Environment - System Context
+graph TB
+    subgraph "External Users"
+        PM[Project Manager]
+        DE[Designer/Engineer]
+        CO[Contractor]
+        OP[Asset Manager]
+    end
     
-    Person(pm, "Project Manager", "Manages BIM projects")
-    Person(designer, "Designer/Engineer", "Creates BIM models")
-    Person(contractor, "Contractor", "Uses models for construction")
-    Person(operator, "Asset Manager", "Manages infrastructure lifecycle")
+    subgraph "ASTRA CDE Platform"
+        API[API Gateway]
+        AUTH[Authentication]
+        CDE_CORE[CDE Core System]
+        VALID[Validation Engine]
+        REPO[Repository]
+    end
     
-    System(cde, "ASTRA CDE", "Central data platform for infrastructure projects")
+    subgraph "External Systems"
+        BIM[BIM Authoring Tools]
+        ANA[Analysis Software]
+        GIS[GIS Systems]
+        FM[Facility Management]
+    end
     
-    System_Ext(authoring, "BIM Authoring Tools", "Revit, ArchiCAD, Civil 3D")
-    System_Ext(analysis, "Analysis Software", "Simulation and calculation tools")
-    System_Ext(gis, "GIS Systems", "Geographic information systems")
-    System_Ext(fm, "Facility Management", "Asset management systems")
+    PM --> API
+    DE --> BIM
+    BIM --> API
+    CO --> API
+    API --> AUTH
+    AUTH --> CDE_CORE
+    CDE_CORE --> VALID
+    VALID --> REPO
+    CDE_CORE --> ANA
+    CDE_CORE --> GIS
+    CDE_CORE --> FM
+    OP --> FM
     
-    Rel(pm, cde, "Manages projects", "HTTPS")
-    Rel(designer, authoring, "Creates models")
-    Rel(authoring, cde, "Uploads models", "IFC/API")
-    Rel(contractor, cde, "Downloads models", "HTTPS")
-    Rel(cde, analysis, "Exports data", "IFC/XML")
-    Rel(cde, gis, "Synchronizes location data", "API")
-    Rel(cde, fm, "Transfers asset data", "COBie/API")
-    Rel(operator, fm, "Manages assets")
+    classDef user fill:#e8f5e8,stroke:#388e3c
+    classDef platform fill:#e1f5fe,stroke:#0288d1
+    classDef external fill:#fff3e0,stroke:#f57c00
+    
+    class PM,DE,CO,OP user
+    class API,AUTH,CDE_CORE,VALID,REPO platform
+    class BIM,ANA,GIS,FM external
 ```
 
 ### 5.2 IFC-Datenfluss und -transformation
@@ -1101,7 +1122,7 @@ flowchart TD
     end
     
     subgraph "Consumption"
-        CO1[Coordination Review] --> CO2[Analysis & Simulation]
+        CO1[Coordination Review] --> CO2[Analysis and Simulation]
         CO2 --> CO3[Construction Planning]
         CO3 --> CO4[Asset Management]
     end
@@ -1165,7 +1186,7 @@ graph LR
         QM1 --> QM2 --> QM3 --> QM4
     end
     
-    subgraph "Alerts & Actions"
+    subgraph "Alerts and Actions"
         AA1[Critical Error Alert]
         AA2[Non-compliance Warning]
         AA3[Performance Degradation]
@@ -1194,7 +1215,7 @@ graph LR
 timeline
     title ASTRA BIM/IFC Implementation Timeline
     
-    section Phase 1: Foundation (2024 Q1-Q2)
+    section Phase 1 Foundation (2024 Q1-Q2)
         Standards Definition     : ASTRA BIM Manual v1.0
                                 : IFC 4.3 Infrastructure Schema
                                 : Property Set Definitions
@@ -1202,7 +1223,7 @@ timeline
                                 : Vendor Training
                                 : Pilot Project Setup
     
-    section Phase 2: Pilot Implementation (2024 Q3-Q4)
+    section Phase 2 Pilot Implementation (2024 Q3-Q4)
         Pilot Projects          : 3 Infrastructure Projects
                                 : Validation Framework Testing
                                 : Process Optimization
@@ -1210,7 +1231,7 @@ timeline
                                 : User Training Workshops
                                 : Support Documentation
     
-    section Phase 3: Scaled Deployment (2025 Q1-Q2)
+    section Phase 3 Scaled Deployment (2025 Q1-Q2)
         Regional Rollout        : All ASTRA Regions
                                 : CDE Platform Deployment
                                 : Quality Assurance Implementation
@@ -1218,7 +1239,7 @@ timeline
                                 : GIS Data Synchronization
                                 : Asset Management Connection
     
-    section Phase 4: Full Operation (2025 Q3-Q4)
+    section Phase 4 Full Operation (2025 Q3-Q4)
         Operational Excellence  : Continuous Monitoring
                                 : Performance Optimization
                                 : Advanced Analytics
@@ -1328,4 +1349,8 @@ mindmap
         Knowledge Sharing
 ```
 
-Die erfolgreiche Implementierung von BIM und IFC bei ASTRA erfordert eine strategische Herangehensweise, die technische Exzellenz mit organisatorischer Transformation verbindet. Die definierten Anforderungen bilden die Grundlage für eine zukunftsfähige, digitale Infrastrukturplanung und -verwaltung in der Schweiz.
+Die erfolgreiche Implementierung von BIM und IFC bei ASTRA erfordert eine strategische Herangehensweise, die technische Exzellenz mit organisatorischer Transformation verbindet. Die definierten Anforderungen bilden das Fundament für eine zukunftsfähige digitale Infrastruktur-Planung und -verwaltung.
+
+---
+
+*Dokument erstellt mit ASTRA BIM Standards v1.0 | Letzte Aktualisierung: 2025-08-29*
