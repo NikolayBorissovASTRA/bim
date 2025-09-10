@@ -70,10 +70,10 @@
 
 ```mermaid
 graph LR
-    A[Client – IAG] -->|Define| B[Project Information Requirements (PID)]
-    B --> C[Information Delivery Manual (IDM)]
-    C --> D[Common Data Environment (CDE)]
-    D --> E[Model Creation – IFC (LOD‑x)]
+    A[Client – IAG] -->|Define| B["Project Information Requirements (PID)"]
+    B --> C["Information Delivery Manual (IDM)"]
+    C --> D["Common Data Environment (CDE)"]
+    D --> E["Model Creation – IFC (LOD‑x)"]
     E --> F[Model Review – BCF Issues]
     F --> G[Validated Release – COBie / IFC]
     G --> H[Construction – FM Handover]
