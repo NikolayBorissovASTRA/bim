@@ -225,8 +225,8 @@ flowchart LR
   C --> D{Freigabe 4-Augen?}
   D -->|Ja| E[PUBLISHED: Versionieren + PID + Lizenz]
   D -->|Nein| C
-  E --> F[Verteilen/Transmittal + Ereignisse (Webhooks)]
-  E --> G[Archivexport (BagIt/SIP, Fixität)]
+  E --> F["Verteilen/Transmittal + Ereignisse (Webhooks)"]
+  E --> G["Archivexport (BagIt/SIP, Fixität)"]
 ```
 
 ---
