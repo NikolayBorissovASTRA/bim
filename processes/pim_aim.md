@@ -23,18 +23,18 @@ This diagram shows the journey of information from the project phase to the oper
 ````mermaid
 graph TD
     subgraph Project Delivery Phase
-        A[Project Need] --> B{Employer's Information Requirements (EIR)};
+        A[Project Need] --> B{"Employer's Information Requirements (EIR)"};
         B --> C[Tender];
-        C --> D[Project Information Model (PIM)];
+        C --> D["Project Information Model (PIM)"];
         D --> E{Verification & Validation};
     end
 
     subgraph Handover
-        E --> F[COBie/IFC Data Drop];
+        E --> F[IFC Data];
     end
 
     subgraph Asset Operation Phase
-        F --> G[Asset Information Model (AIM)];
+        F --> G["Asset Information Model (AIM)"];
         G --> H{Operation & Maintenance};
         H --> I[Updates/Renovations];
         I --> G;
