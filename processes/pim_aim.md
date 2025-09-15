@@ -75,7 +75,7 @@ graph TD
         subgraph DataFormats [Open Standards]
             IFC["IFC (ISO 16739)"];
             BCF[BCF];
-            COBie[IFC Data];
+            SN_EN_ISO[ISO 90650];
         end
     end
 
@@ -83,7 +83,7 @@ graph TD
     Engineers -- uses/updates --> PIM;
     Contractors -- uses/updates --> PIM;
 
-    PIM -- Handover via IFC/COBie --> AIM;
+    PIM -- Handover via IFC --> AIM;
 
     FacilityManager -- uses/updates --> AIM;
     AssetManager -- uses/updates --> AIM;
