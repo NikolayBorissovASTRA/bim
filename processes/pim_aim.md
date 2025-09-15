@@ -73,9 +73,9 @@ graph TD
         AIM[Asset Information Model];
 
         subgraph DataFormats [Open Standards]
-            IFC[IFC (ISO 16739)];
+            IFC["IFC (ISO 16739)"];
             BCF[BCF];
-            COBie[COBie];
+            COBie[IFC Data];
         end
     end
 
