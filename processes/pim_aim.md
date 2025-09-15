@@ -70,13 +70,16 @@ graph TD
 
     subgraph CDE [Common Data Environment]
         PIM[Project Information Model];
-        AIM[Asset Information Model];
 
         subgraph DataFormats [Open Standards]
             IFC["IFC (ISO 16739)"];
             BCF[BCF];
             SN_EN_ISO[ISO 90650];
         end
+    end
+
+    subgraph ASTRADS [ASTRA DS]
+        AIM[Asset Information Model];
     end
 
     Architects -- uses/updates --> PIM;
@@ -90,6 +93,8 @@ graph TD
 
     style CDE fill:#f9f9f9,stroke:#333,stroke-width:2px
     style DataFormats fill:#fff,stroke:#333,stroke-width:1px,stroke-dasharray: 5 5
+    style ASTRADS fill:#aee,stroke:#555,stroke-width:1px,stroke-dasharray: 5 5
+
 ````
 
 **Interoperability Focus:**
