@@ -62,6 +62,7 @@ graph TD
         Architects;
         Engineers;
         Contractors;
+        BIM_Managers;
         subgraph Owner/Operator [ASTRA]
             FacilityManager[Facility Manager];
             AssetManager[Asset Manager];
@@ -85,6 +86,7 @@ graph TD
     Architects -- uses/updates --> PIM;
     Engineers -- uses/updates --> PIM;
     Contractors -- uses/updates --> PIM;
+    BIM_Managers -- uses/updates --> PIM;
 
     PIM -- Handover via IFC --> AIM;
 
