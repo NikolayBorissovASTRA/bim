@@ -59,41 +59,40 @@ quadrantChart
 ### 1.2 Projekt-Roadmap mit Meilensteinen
 
 ```mermaid
-%%{init: {'theme':'base'}}%%
 gantt
-    title BIM-Modellplanung: Umsetzungs-Roadmap (6 Monate)
+    title BIM-Modellplanung Umsetzungs-Roadmap 6 Monate
     dateFormat YYYY-MM-DD
     
-    section Phase 1: Foundation
+    section Phase 1 Foundation
     T-001 Governance etablieren          :done, gov, 2025-10-09, 7d
     T-002 YAML-Schema entwickeln         :active, yaml, 2025-10-09, 14d
     T-003 Fachmodell-Katalog            :fach, 2025-10-16, 7d
-    Meilenstein: Foundation Complete     :milestone, m1, 2025-10-23, 0d
+    Meilenstein Foundation Complete     :milestone, m1, 2025-10-23, 0d
     
-    section Phase 2: Prozesse
+    section Phase 2 Prozesse
     T-004 Pruefprozess konzipieren       :pruef, 2025-10-23, 14d
     T-005 Change-Management             :change, 2025-10-30, 7d
-    Meilenstein: Prozesse definiert      :milestone, m2, 2025-11-06, 0d
+    Meilenstein Prozesse definiert      :milestone, m2, 2025-11-06, 0d
     
-    section Phase 3: Infrastruktur
+    section Phase 3 Infrastruktur
     T-006 CDE-Integration               :cde, 2025-11-06, 14d
     T-007 IDS-Regelwerk erstellen       :ids, 2025-11-13, 21d
     T-008 Segmentierungs-Tooling        :seg, 2025-11-20, 14d
-    Meilenstein: Infrastruktur Ready     :milestone, m3, 2025-12-04, 0d
+    Meilenstein Infrastruktur Ready     :milestone, m3, 2025-12-04, 0d
     
-    section Phase 4: Applikation
+    section Phase 4 Applikation
     T-009 Requirements definieren        :req, 2025-12-04, 7d
     T-010 MVP entwickeln                :mvp, 2025-12-11, 42d
-    Meilenstein: MVP Deployed            :milestone, m4, 2026-01-22, 0d
+    Meilenstein MVP Deployed            :milestone, m4, 2026-01-22, 0d
     
-    section Phase 5: Qualitaet & Launch
-    T-011 Testkonzept & Pilotierung     :test, 2026-01-22, 14d
-    T-012 Dokumentation & Schulung      :doc, 2026-02-05, 14d
-    Pilotprojekt: Projekt N04           :pilot, 2026-02-19, 21d
-    Go-Live: Production Release         :crit, golive, 2026-03-12, 7d
-    Meilenstein: PRODUCTION LIVE 🎉     :milestone, m5, 2026-03-19, 0d
+    section Phase 5 Qualitaet Launch
+    T-011 Testkonzept Pilotierung       :test, 2026-01-22, 14d
+    T-012 Dokumentation Schulung        :doc, 2026-02-05, 14d
+    Pilotprojekt Projekt N04            :pilot, 2026-02-19, 21d
+    Go-Live Production Release          :crit, golive, 2026-03-12, 7d
+    Meilenstein PRODUCTION LIVE         :milestone, m5, 2026-03-19, 0d
     
-    section Support & Wartung
+    section Support Wartung
     Hypercare Phase                     :support, 2026-03-19, 30d
     Kontinuierliche Verbesserung        :improve, 2026-04-18, 60d
 ```
@@ -225,7 +224,7 @@ logger = logging.getLogger(__name__)
 # ============================================================================
 
 class ModellTyp(str, Enum):
-    """Modelltypen: Projekt oder Kontext"""
+    """Modelln: Projekt oder Kontext"""
     PROJEKT = "projekt"
     KONTEXT = "kontext"
 
@@ -248,7 +247,7 @@ class ValidationStatus(str, Enum):
 
 
 class AbhaengigkeitTyp(str, Enum):
-    """Typen von Modellabhaengigkeiten"""
+    """n von Modellabhaengigkeiten"""
     REFERENZIERT = "referenziert"
     BASIERT_AUF = "basiert_auf"
     KOORDINIERT_MIT = "koordiniert_mit"
@@ -460,7 +459,7 @@ class Modellplan(BaseModel):
             df.to_excel(writer, sheet_name='Modellplan', index=False)
             worksheet = writer.sheets['Modellplan']
             for idx, col in enumerate(df.columns):
-                max_length = max(df[col].astype(str).apply(len).max(), len(col)) + 2
+                max_length = max(df[col].as(str).apply(len).max(), len(col)) + 2
                 worksheet.column_dimensions[chr(65 + idx)].width = min(max_length, 50)
         
         logger.info(f"✅ Modellplan als Excel exportiert: {filepath}")
