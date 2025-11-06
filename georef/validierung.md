@@ -227,7 +227,7 @@ CHECK 3 (Globale Verbindung):
 
 ```mermaid
 flowchart TD
-    Start([Start: Excel-Daten<br/>Model-ID | Point-ID])
+    Start([Start: Excel-Daten<br/>Model-ID und Point-ID])
     
     Start --> Read[Daten einlesen<br/>Zeile 2 bis lastRow]
     Read --> Build[Bidirektionale Indizes erstellen]
