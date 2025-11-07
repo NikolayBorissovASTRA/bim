@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """
-Simplified Excel-driven IFC generation with IDS validation using ifctester.
-Uses pre-generated test_data.xlsx file.
+Excel-driven IFC generation with IDS value validation using ifctester.
+This test validates not just the presence of properties, but their actual values
+from the Excel pyramid-coordinates sheet.
 """
 
 import os
@@ -43,12 +44,12 @@ def generate_ifc_files(models_df: pd.DataFrame, coords_df: pd.DataFrame, output_
 
                 # Extract all pyramid data from Excel columns
                 pyramid_data = {
-                    'measurement_date': coords.get('measurement_date'),
-                    'accuracy_class': coords.get('accuracy_class'),
-                    'measurement_method': coords.get('measurement_method'),
-                    'operator': coords.get('operator'),
-                    'status': coords.get('status'),
-                    'remarks': coords.get('remarks')
+                    'measurement_date': str(coords.get('measurement_date')),
+                    'accuracy_class': str(coords.get('accuracy_class')),
+                    'measurement_method': str(coords.get('measurement_method')),
+                    'operator': str(coords.get('operator')),
+                    'status': str(coords.get('status')),
+                    'remarks': str(coords.get('remarks'))
                 }
 
                 generator.add_pyramid(
@@ -69,17 +70,45 @@ def generate_ifc_files(models_df: pd.DataFrame, coords_df: pd.DataFrame, output_
     return generated_files
 
 
-def create_ids_xml_for_segment(segment_name: str, pyramid_names: List[str], output_path: str):
-    """Create IDS XML specification for a specific segment using template."""
+def create_ids_xml_with_values(segment_name: str, pyramid_names: List[str], coords_df: pd.DataFrame, output_path: str):
+    """Create IDS XML specification with value validation for a specific segment."""
 
     # Read template
-    template_path = Path(__file__).parent.parent / 'templates' / 'ids_validation.xml'
+    template_path = Path(__file__).parent.parent / 'templates' / 'ids_validation_with_values.xml'
     with open(template_path, 'r', encoding='utf-8') as f:
         template = f.read()
 
-    # Create specification blocks for additional pyramids (first one is in template)
-    spec_template = '''
-    <specification name="{{PYRAMID_NAME}}_check" ifcVersion="IFC4X3_ADD2">
+    coord_lookup = coords_df.set_index('pyramid_name').to_dict('index')
+
+    # Get data for first pyramid
+    first_pyramid = pyramid_names[0]
+    first_coords = coord_lookup[first_pyramid]
+
+    # Replace placeholders for first pyramid in template
+    xml_content = template.replace('{{TITLE}}', f'Value Validation for {segment_name}')
+    xml_content = xml_content.replace('{{DESCRIPTION}}', f'Validates pyramid values in segment {segment_name}')
+    xml_content = xml_content.replace('{{DATE}}', datetime.now().strftime('%Y-%m-%d'))
+    xml_content = xml_content.replace('{{PYRAMID_NAME}}', first_pyramid)
+    xml_content = xml_content.replace('{{BP_E}}', str(first_coords['LV95_X']))
+    xml_content = xml_content.replace('{{BP_N}}', str(first_coords['LV95_Y']))
+    xml_content = xml_content.replace('{{BP_H}}', str(first_coords['LV95_Z']))
+    xml_content = xml_content.replace('{{MEASUREMENT_DATE}}', str(first_coords['measurement_date']))
+    xml_content = xml_content.replace('{{ACCURACY_CLASS}}', str(first_coords['accuracy_class']))
+    xml_content = xml_content.replace('{{MEASUREMENT_METHOD}}', str(first_coords['measurement_method']))
+    xml_content = xml_content.replace('{{OPERATOR}}', str(first_coords['operator']))
+    xml_content = xml_content.replace('{{STATUS}}', str(first_coords['status']))
+    xml_content = xml_content.replace('{{REMARKS}}', str(first_coords['remarks']))
+
+    # Build additional specs for other pyramids
+    additional_specs = []
+    for pyramid_name in pyramid_names[1:]:
+        if pyramid_name not in coord_lookup:
+            continue
+
+        coords = coord_lookup[pyramid_name]
+
+        spec = f'''
+    <specification name="{pyramid_name}_check" ifcVersion="IFC4X3_ADD2">
       <applicability>
         <entity>
           <name>
@@ -91,7 +120,7 @@ def create_ids_xml_for_segment(segment_name: str, pyramid_names: List[str], outp
             <simpleValue>Name</simpleValue>
           </name>
           <value>
-            <simpleValue>{{PYRAMID_NAME}}</simpleValue>
+            <simpleValue>{pyramid_name}</simpleValue>
           </value>
         </attribute>
       </applicability>
@@ -103,6 +132,9 @@ def create_ids_xml_for_segment(segment_name: str, pyramid_names: List[str], outp
           <baseName>
             <simpleValue>BP_E</simpleValue>
           </baseName>
+          <value>
+            <simpleValue>{coords['LV95_X']}</simpleValue>
+          </value>
         </property>
         <property cardinality="required" dataType="IFCLENGTHMEASURE">
           <propertySet>
@@ -111,6 +143,9 @@ def create_ids_xml_for_segment(segment_name: str, pyramid_names: List[str], outp
           <baseName>
             <simpleValue>BP_N</simpleValue>
           </baseName>
+          <value>
+            <simpleValue>{coords['LV95_Y']}</simpleValue>
+          </value>
         </property>
         <property cardinality="required" dataType="IFCLENGTHMEASURE">
           <propertySet>
@@ -119,6 +154,9 @@ def create_ids_xml_for_segment(segment_name: str, pyramid_names: List[str], outp
           <baseName>
             <simpleValue>BP_H</simpleValue>
           </baseName>
+          <value>
+            <simpleValue>{coords['LV95_Z']}</simpleValue>
+          </value>
         </property>
         <property cardinality="required" dataType="IFCLABEL">
           <propertySet>
@@ -127,6 +165,9 @@ def create_ids_xml_for_segment(segment_name: str, pyramid_names: List[str], outp
           <baseName>
             <simpleValue>measurement_date</simpleValue>
           </baseName>
+          <value>
+            <simpleValue>{coords['measurement_date']}</simpleValue>
+          </value>
         </property>
         <property cardinality="required" dataType="IFCLABEL">
           <propertySet>
@@ -135,6 +176,9 @@ def create_ids_xml_for_segment(segment_name: str, pyramid_names: List[str], outp
           <baseName>
             <simpleValue>accuracy_class</simpleValue>
           </baseName>
+          <value>
+            <simpleValue>{coords['accuracy_class']}</simpleValue>
+          </value>
         </property>
         <property cardinality="required" dataType="IFCLABEL">
           <propertySet>
@@ -143,6 +187,9 @@ def create_ids_xml_for_segment(segment_name: str, pyramid_names: List[str], outp
           <baseName>
             <simpleValue>measurement_method</simpleValue>
           </baseName>
+          <value>
+            <simpleValue>{coords['measurement_method']}</simpleValue>
+          </value>
         </property>
         <property cardinality="required" dataType="IFCLABEL">
           <propertySet>
@@ -151,6 +198,9 @@ def create_ids_xml_for_segment(segment_name: str, pyramid_names: List[str], outp
           <baseName>
             <simpleValue>operator</simpleValue>
           </baseName>
+          <value>
+            <simpleValue>{coords['operator']}</simpleValue>
+          </value>
         </property>
         <property cardinality="required" dataType="IFCLABEL">
           <propertySet>
@@ -159,6 +209,9 @@ def create_ids_xml_for_segment(segment_name: str, pyramid_names: List[str], outp
           <baseName>
             <simpleValue>status</simpleValue>
           </baseName>
+          <value>
+            <simpleValue>{coords['status']}</simpleValue>
+          </value>
         </property>
         <property cardinality="required" dataType="IFCTEXT">
           <propertySet>
@@ -167,30 +220,21 @@ def create_ids_xml_for_segment(segment_name: str, pyramid_names: List[str], outp
           <baseName>
             <simpleValue>remarks</simpleValue>
           </baseName>
+          <value>
+            <simpleValue>{coords['remarks']}</simpleValue>
+          </value>
         </property>
       </requirements>
     </specification>'''
-
-    # Build additional specs for pyramids beyond the first
-    additional_specs = []
-    for pyramid_name in pyramid_names[1:]:
-        spec = spec_template.replace('{{PYRAMID_NAME}}', pyramid_name)
         additional_specs.append(spec)
 
-    additional_specs_str = ''.join(additional_specs)
-
-    # Replace placeholders
-    xml_content = template.replace('{{TITLE}}', f'Validation for {segment_name}')
-    xml_content = xml_content.replace('{{DESCRIPTION}}', f'Validates pyramids in segment {segment_name}')
-    xml_content = xml_content.replace('{{DATE}}', datetime.now().strftime('%Y-%m-%d'))
-    xml_content = xml_content.replace('{{PYRAMID_NAME}}', pyramid_names[0])  # First pyramid
-    xml_content = xml_content.replace('{{ADDITIONAL_SPECS}}', additional_specs_str)
+    xml_content = xml_content.replace('{{ADDITIONAL_SPECS}}', ''.join(additional_specs))
 
     # Write to file
     with open(output_path, 'w', encoding='utf-8') as f:
         f.write(xml_content)
 
-    print(f"✅ Created IDS XML for {segment_name}: {output_path}")
+    print(f"✅ Created IDS XML with value validation for {segment_name}: {output_path}")
 
 
 def validate_segment_with_ifctester(ifc_file: str, ids_file: str, output_dir: str) -> Dict:
@@ -212,7 +256,7 @@ def validate_segment_with_ifctester(ifc_file: str, ids_file: str, output_dir: st
         my_ids.validate(ifc_model)
 
         # Generate report
-        report_path = os.path.join(output_dir, f'{segment_name}_validation.html')
+        report_path = os.path.join(output_dir, f'{segment_name}_value_validation.html')
         reporter.Html(my_ids).report()
         reporter.Html(my_ids).to_file(report_path)
 
@@ -250,15 +294,17 @@ def generate_summary_report(results: Dict, models_df: pd.DataFrame, output_path:
 
     report = []
     report.append("=" * 80)
-    report.append("IFC VALIDATION REPORT (IDS + ifctester)")
+    report.append("IFC VALUE VALIDATION REPORT (IDS + ifctester)")
     report.append("=" * 80)
     report.append(f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+    report.append("This report validates not just property presence, but actual values")
+    report.append("from the Excel pyramid-coordinates sheet.\n")
 
     # Summary
     total_files = len(results)
     passed_files = sum(1 for r in results.values() if r.get('status') == 'PASSED')
 
-    report.append(f"Summary: {passed_files}/{total_files} files passed validation")
+    report.append(f"Summary: {passed_files}/{total_files} files passed value validation")
     report.append("-" * 80)
 
     # Results per file
@@ -276,32 +322,19 @@ def generate_summary_report(results: Dict, models_df: pd.DataFrame, output_path:
             if 'report' in result:
                 report.append(f"   HTML Report: {result['report']}")
 
-    # Shared pyramids analysis
-    report.append("\n" + "=" * 80)
-    report.append("SHARED PYRAMIDS ANALYSIS")
-    report.append("=" * 80)
-
-    segment_groups = models_df.groupby('segment_model')['pyramid_name'].apply(set).to_dict()
-    segments = list(segment_groups.keys())
-
-    for i, seg1 in enumerate(segments):
-        for seg2 in segments[i+1:]:
-            shared = segment_groups[seg1] & segment_groups[seg2]
-            if shared:
-                report.append(f"\n✓ {seg1} ∩ {seg2}:")
-                for pyramid in shared:
-                    report.append(f"  - {pyramid}")
-
     # Statistics
     report.append("\n" + "=" * 80)
-    report.append("STATISTICS")
+    report.append("VALIDATION DETAILS")
     report.append("=" * 80)
 
     unique_pyramids = models_df['pyramid_name'].nunique()
     total_references = len(models_df)
     report.append(f"Unique pyramids: {unique_pyramids}")
     report.append(f"Total references: {total_references}")
-    report.append(f"Segments: {len(segments)}")
+    report.append(f"Segments: {len(results)}")
+    report.append("\nEach specification validates:")
+    report.append("  - Exact coordinate values (BP_E, BP_N, BP_H)")
+    report.append("  - Exact metadata values (measurement_date, accuracy_class, etc.)")
 
     report_text = "\n".join(report)
 
@@ -312,17 +345,18 @@ def generate_summary_report(results: Dict, models_df: pd.DataFrame, output_path:
     return report_text
 
 
-def test_excel_ids_validation():
-    """Main test function using pre-generated test_data.xlsx."""
+def test_excel_ids_value_validation():
+    """Main test function with value validation."""
 
     print("\n" + "=" * 80)
-    print("🧪 TEST: Excel-Driven IFC with IDS XML Validation (ifctester)")
+    print("🧪 TEST: Excel-Driven IFC with IDS VALUE Validation (ifctester)")
     print("=" * 80)
+    print("This test validates actual property VALUES from Excel\n")
 
     # Setup paths
     test_dir = Path(__file__).parent
     excel_file = test_dir / "test_data.xlsx"
-    output_dir = test_dir.parent / "output" / "excel_ids_test"
+    output_dir = test_dir.parent / "output" / "excel_ids_value_test"
 
     if not excel_file.exists():
         print(f"❌ Test data file not found: {excel_file}")
@@ -330,29 +364,29 @@ def test_excel_ids_validation():
         sys.exit(1)
 
     # Read Excel data
-    print("\n📖 Reading test data from Excel...")
+    print("📖 Reading test data from Excel...")
     models_df = pd.read_excel(excel_file, sheet_name='models')
     coords_df = pd.read_excel(excel_file, sheet_name='pyramid-coordinates')
     print(f"  ✓ Found {len(models_df)} pyramid references")
-    print(f"  ✓ Found {len(coords_df)} unique pyramids")
+    print(f"  ✓ Found {len(coords_df)} unique pyramids with metadata")
 
     # Generate IFC files
-    print("\n🏗️ Generating IFC files...")
+    print("\n🏗️ Generating IFC files with all property values...")
     ifc_files = generate_ifc_files(models_df, coords_df, str(output_dir))
     print(f"\n  ✓ Generated {len(ifc_files)} IFC files")
 
-    # Create IDS XML files (one per segment)
-    print("\n📋 Creating IDS XML specifications (one per segment)...")
+    # Create IDS XML files with value validation (one per segment)
+    print("\n📋 Creating IDS XML specifications with VALUE validation...")
     segment_groups = models_df.groupby('segment_model')['pyramid_name'].apply(list).to_dict()
     ids_files = {}
 
     for segment_name, pyramid_names in segment_groups.items():
-        ids_file = output_dir / f"{segment_name}_validation.ids"
-        create_ids_xml_for_segment(segment_name, pyramid_names, str(ids_file))
+        ids_file = output_dir / f"{segment_name}_value_validation.ids"
+        create_ids_xml_with_values(segment_name, pyramid_names, coords_df, str(ids_file))
         ids_files[segment_name] = str(ids_file)
 
     # Validate with ifctester
-    print("\n✅ Validating with ifctester...")
+    print("\n✅ Validating property VALUES with ifctester...")
     results = {}
     for ifc_file in ifc_files:
         segment_name = Path(ifc_file).stem
@@ -363,7 +397,7 @@ def test_excel_ids_validation():
 
     # Generate summary report
     print("\n📄 Generating summary report...")
-    report_file = output_dir / "validation_summary.txt"
+    report_file = output_dir / "value_validation_summary.txt"
     report = generate_summary_report(results, models_df, str(report_file))
     print(f"  ✓ Report saved to: {report_file}")
 
@@ -379,18 +413,19 @@ def test_excel_ids_validation():
     print("✓ 3 IFC files created")
 
     assert len(ids_files) == 3, f"Expected 3 IDS XML files, got {len(ids_files)}"
-    print("✓ 3 IDS XML files created (one per segment)")
+    print("✓ 3 IDS XML files created with value validation")
 
     all_passed = all(r.get('status') == 'PASSED' for r in results.values())
-    assert all_passed, "Some IFC files failed validation"
-    print("✓ All IFC files passed IDS validation")
+    assert all_passed, "Some IFC files failed value validation"
+    print("✓ All IFC files passed IDS value validation")
+    print("  (All property values match Excel data exactly)")
 
     print("\n" + "=" * 80)
-    print("🎉 TEST PASSED: Excel workflow with IDS validation completed!")
+    print("🎉 TEST PASSED: Excel workflow with VALUE validation completed!")
     print("=" * 80)
 
     return True
 
 
 if __name__ == "__main__":
-    success = test_excel_ids_validation()
+    success = test_excel_ids_value_validation()

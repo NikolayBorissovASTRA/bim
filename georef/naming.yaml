@@ -1,0 +1,29 @@
+# Naming Convention Configuration
+# Standardized naming patterns for planners
+
+naming:
+  # Naming patterns
+  patterns:
+    convention: "{project}_{type}_{sector}_{number:03d}_{phase}"
+    coordinate: "E{easting:.0f}_N{northing:.0f}"
+    simple: "Pyramid_{number:03d}"
+
+  # Element type codes and descriptions
+  types:
+    REF: "Reference Point"       # Reference points for surveying
+    SUR: "Survey Point"          # Survey measurement points
+    CTL: "Control Point"         # Control points for construction
+    BND: "Boundary Point"        # Property/area boundary markers
+    CON: "Construction Point"    # Construction reference points
+    MON: "Monitoring Point"      # Long-term monitoring locations
+    BEN: "Benchmark"            # Elevation benchmarks
+    GEO: "Geodetic Point"       # Geodetic reference markers
+
+  # Project phase codes
+  phases:
+    PL: "Planning"              # Planning phase
+    DE: "Design"                # Design phase
+    CO: "Construction"          # Construction phase
+    AB: "As-Built"              # As-built documentation
+    OP: "Operation"             # Operational phase
+    MO: "Monitoring"            # Monitoring phase

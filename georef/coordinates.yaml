@@ -1,0 +1,9 @@
+# Swiss LV95 Reference Point Configuration
+# LoGeoRef50 transformation parameters
+
+reference_point:
+  easting: 2679520.05        # E₀ - Reference easting
+  northing: 1151703.09       # N₀ - Reference northing
+  height: 447.3              # H₀ - Reference height
+  rotation_deg: -27.69832    # Rotation angle in degrees
+  epsg_code: 2056           # Swiss LV95 coordinate system

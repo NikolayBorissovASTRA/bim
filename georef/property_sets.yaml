@@ -1,0 +1,26 @@
+# Property Set Definitions
+# ASTRA-compliant georeferencing properties
+
+property_sets:
+  ASTRA_Georeferencing:
+    description: "Swiss Federal Roads Office georeferencing standard"
+    properties:
+      - name: "BP_E"
+        type: "IfcLengthMeasure"
+        description: "Swiss LV95 Easting coordinate"
+
+      - name: "BP_N"
+        type: "IfcLengthMeasure"
+        description: "Swiss LV95 Northing coordinate"
+
+      - name: "BP_H"
+        type: "IfcLengthMeasure"
+        description: "Height above sea level"
+
+      - name: "Rotation"
+        type: "IfcPlaneAngleMeasure"
+        description: "Rotation angle in radians"
+
+      - name: "EPSG_Code"
+        type: "IfcIdentifier"
+        description: "Coordinate Reference System code"

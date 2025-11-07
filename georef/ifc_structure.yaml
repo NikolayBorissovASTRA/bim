@@ -1,0 +1,33 @@
+# IFC4X3_ADD2 Structure Templates
+# Core IFC entity configurations
+
+ifc_templates:
+  # Project configuration
+  project:
+    name: "Swiss Infrastructure Project"
+    description: "IFC4X3_ADD2 with LV95 georeferencing"
+
+  # Unit definitions
+  units:
+    - type: "LENGTHUNIT"
+      prefix: null
+      name: "METRE"
+
+    - type: "AREAUNIT"
+      prefix: null
+      name: "SQUARE_METRE"
+
+    - type: "VOLUMEUNIT"
+      prefix: null
+      name: "CUBIC_METRE"
+
+    - type: "PLANEANGLEUNIT"
+      prefix: null
+      name: "RADIAN"
+
+  # Geometric representation context
+  context:
+    identifier: "Model"
+    type: "Model"
+    dimension: 3
+    precision: 1.0E-08

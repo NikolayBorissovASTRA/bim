@@ -1,0 +1,132 @@
+<?xml version="1.0" ?>
+<ids xmlns="http://standards.buildingsmart.org/IDS" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://standards.buildingsmart.org/IDS http://standards.buildingsmart.org/IDS/1.0/ids.xsd">
+  <info>
+    <title>{{TITLE}}</title>
+    <copyright>ASTRA</copyright>
+    <version>1.0</version>
+    <description>{{DESCRIPTION}}</description>
+    <author>ifc.generator@astra.admin.ch</author>
+    <date>{{DATE}}</date>
+  </info>
+  <specifications>
+    <specification name="{{PYRAMID_NAME}}_check" ifcVersion="IFC4X3_ADD2">
+      <applicability>
+        <entity>
+          <name>
+            <simpleValue>IFCVIRTUALELEMENT</simpleValue>
+          </name>
+        </entity>
+        <attribute>
+          <name>
+            <simpleValue>Name</simpleValue>
+          </name>
+          <value>
+            <simpleValue>{{PYRAMID_NAME}}</simpleValue>
+          </value>
+        </attribute>
+      </applicability>
+      <requirements>
+        <property cardinality="required" dataType="IFCLENGTHMEASURE">
+          <propertySet>
+            <simpleValue>ASTRA_Georeferencing</simpleValue>
+          </propertySet>
+          <baseName>
+            <simpleValue>BP_E</simpleValue>
+          </baseName>
+          <value>
+            <simpleValue>{{BP_E}}</simpleValue>
+          </value>
+        </property>
+        <property cardinality="required" dataType="IFCLENGTHMEASURE">
+          <propertySet>
+            <simpleValue>ASTRA_Georeferencing</simpleValue>
+          </propertySet>
+          <baseName>
+            <simpleValue>BP_N</simpleValue>
+          </baseName>
+          <value>
+            <simpleValue>{{BP_N}}</simpleValue>
+          </value>
+        </property>
+        <property cardinality="required" dataType="IFCLENGTHMEASURE">
+          <propertySet>
+            <simpleValue>ASTRA_Georeferencing</simpleValue>
+          </propertySet>
+          <baseName>
+            <simpleValue>BP_H</simpleValue>
+          </baseName>
+          <value>
+            <simpleValue>{{BP_H}}</simpleValue>
+          </value>
+        </property>
+        <property cardinality="required" dataType="IFCLABEL">
+          <propertySet>
+            <simpleValue>ASTRA_CommonPSet_LoGeoRef</simpleValue>
+          </propertySet>
+          <baseName>
+            <simpleValue>measurement_date</simpleValue>
+          </baseName>
+          <value>
+            <simpleValue>{{MEASUREMENT_DATE}}</simpleValue>
+          </value>
+        </property>
+        <property cardinality="required" dataType="IFCLABEL">
+          <propertySet>
+            <simpleValue>ASTRA_CommonPSet_LoGeoRef</simpleValue>
+          </propertySet>
+          <baseName>
+            <simpleValue>accuracy_class</simpleValue>
+          </baseName>
+          <value>
+            <simpleValue>{{ACCURACY_CLASS}}</simpleValue>
+          </value>
+        </property>
+        <property cardinality="required" dataType="IFCLABEL">
+          <propertySet>
+            <simpleValue>ASTRA_CommonPSet_LoGeoRef</simpleValue>
+          </propertySet>
+          <baseName>
+            <simpleValue>measurement_method</simpleValue>
+          </baseName>
+          <value>
+            <simpleValue>{{MEASUREMENT_METHOD}}</simpleValue>
+          </value>
+        </property>
+        <property cardinality="required" dataType="IFCLABEL">
+          <propertySet>
+            <simpleValue>ASTRA_CommonPSet_LoGeoRef</simpleValue>
+          </propertySet>
+          <baseName>
+            <simpleValue>operator</simpleValue>
+          </baseName>
+          <value>
+            <simpleValue>{{OPERATOR}}</simpleValue>
+          </value>
+        </property>
+        <property cardinality="required" dataType="IFCLABEL">
+          <propertySet>
+            <simpleValue>ASTRA_CommonPSet_LoGeoRef</simpleValue>
+          </propertySet>
+          <baseName>
+            <simpleValue>status</simpleValue>
+          </baseName>
+          <value>
+            <simpleValue>{{STATUS}}</simpleValue>
+          </value>
+        </property>
+        <property cardinality="required" dataType="IFCTEXT">
+          <propertySet>
+            <simpleValue>ASTRA_CommonPSet_LoGeoRef</simpleValue>
+          </propertySet>
+          <baseName>
+            <simpleValue>remarks</simpleValue>
+          </baseName>
+          <value>
+            <simpleValue>{{REMARKS}}</simpleValue>
+          </value>
+        </property>
+      </requirements>
+    </specification>
+    {{ADDITIONAL_SPECS}}
+  </specifications>
+</ids>
