@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ids xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://standards.buildingsmart.org/IDS http://standards.buildingsmart.org/IDS/1.0/ids.xsd" xmlns="http://standards.buildingsmart.org/IDS">
+  
+    <info>
+        <title>ASTRA Virtual Elements and Swiss CRS Requirements</title>
+        <copyright>© 2025 ASTRA</copyright>
+        <version>3.0.0</version>
+        <description>Requirements for virtual reference points with Swiss coordinate system</description>
+        <author>bim.standards@astra.ch</author>
+        <date>2025-01-09</date>
+        <purpose>Quality Assurance</purpose>
+        <milestone>Design Development</milestone>
+    </info>
+    
+    <specifications>
+        
+        <!-- Combined specification for virtual elements -->
+        <specification name="Virtual Reference Points" 
+                          ifcVersion="IFC4X3_ADD2"
+                          description="Virtual elements for georeferencing">
+            
+            <applicability minOccurs="3" maxOccurs="unbounded">
+                <entity>
+                    <name>
+                        <simpleValue>IFCVIRTUALELEMENT</simpleValue>
+                    </name>
+                </entity>
+            </applicability>
+            <requirements>
+                <entity>
+                    <name>
+                        <simpleValue>IFCVIRTUALELEMENT</simpleValue>
+                    </name>
+                </entity>
+                
+                <!-- Property requirements -->
+                <property cardinality="required" dataType="IFCREAL">
+                    <propertySet>
+                        <simpleValue>CustomPset_BP_ASTRA</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>BP_X</simpleValue>
+                    </baseName>
+                </property>
+                
+                <property cardinality="required" dataType="IFCREAL">
+                    <propertySet>
+                        <simpleValue>CustomPset_BP_ASTRA</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>BP_Y</simpleValue>
+                    </baseName>
+                </property>
+                
+                <property cardinality="required" dataType="IFCREAL">
+                    <propertySet>
+                        <simpleValue>CustomPset_BP_ASTRA</simpleValue>
+                    </propertySet>
+                    <baseName>
+                        <simpleValue>BP_Z</simpleValue>
+                    </baseName>
+                </property>
+            </requirements>
+        </specification>
+        
+        <!-- CRS specification -->
+        <specification name="Coordinate Reference System" 
+                          ifcVersion="IFC4X3_ADD2"
+                          description="Swiss CH1903+ / LV95 required">
+            
+            <applicability>
+                <entity>
+                    <name>
+                        <simpleValue>IFCPROJECTEDCRS</simpleValue>
+                    </name>
+                </entity>
+            </applicability>
+            
+            <requirements>
+                <entity>
+                    <name>
+                        <simpleValue>IFCPROJECTEDCRS</simpleValue>
+                    </name>
+                </entity>
+                
+                <attribute cardinality="required">
+                    <name>
+                        <simpleValue>Name</simpleValue>
+                    </name>
+                    <value>
+                        <simpleValue>CH1903+ / LV95</simpleValue>
+                    </value>
+                </attribute>
+                
+                <attribute cardinality="required">
+                    <name>
+                        <simpleValue>Description</simpleValue>
+                    </name>
+                    <value>
+                        <simpleValue>EPSG:2056</simpleValue>
+                    </value>
+                </attribute>
+                
+                <attribute cardinality="required">
+                    <name>
+                        <simpleValue>VerticalDatum</simpleValue>
+                    </name>
+                    <value>
+                        <simpleValue>LHN95</simpleValue>
+                    </value>
+                </attribute>
+            </requirements>
+        </specification>
+        
+        <!-- Map conversion specification -->
+        <specification name="Map Conversion" 
+                          ifcVersion="IFC4X3_ADD2"
+                          description="Swiss transformation parameters">
+            
+            <applicability>
+                <entity>
+                    <name>
+                        <simpleValue>IFCMAPCONVERSION</simpleValue>
+                    </name>
+                </entity>
+            </applicability>
+            
+            <requirements>
+                <entity>
+                    <name>
+                        <simpleValue>IFCMAPCONVERSION</simpleValue>
+                    </name>
+                </entity>
+                
+                <attribute cardinality="required">
+                    <name>
+                        <simpleValue>Eastings</simpleValue>
+                    </name>
+                    <value>
+                        <simpleValue>2600000</simpleValue>
+                    </value>
+                </attribute>
+                
+                <attribute cardinality="required">
+                    <name>
+                        <simpleValue>Northings</simpleValue>
+                    </name>
+                    <value>
+                        <simpleValue>1200000</simpleValue>
+                    </value>
+                </attribute>
+                
+                <attribute cardinality="required">
+                    <name>
+                        <simpleValue>OrthogonalHeight</simpleValue>
+                    </name>
+                    <value>
+                        <simpleValue>500</simpleValue>
+                    </value>
+                </attribute>
+            </requirements>
+        </specification>
+        
+    </specifications>
+    
+</ids>

@@ -1,0 +1,154 @@
+ISO-10303-21;
+HEADER;
+FILE_DESCRIPTION(('IFC4X3_ADD2 Example with Virtual Elements, BP_ASTRA Coordinates and Swiss LV95 CRS'),'2;1');
+FILE_NAME('virtual_elements_with_crs_ifc4x3.ifc','2025-01-09T10:00:00',('Author'),('Organization'),'IFC4X3 Processor','IFC4X3','');
+FILE_SCHEMA(('IFC4X3_ADD2'));
+ENDSEC;
+
+DATA;
+
+/* ============================================ */
+/* COORDINATE REFERENCE SYSTEM CONFIGURATION   */
+/* ============================================ */
+
+/* Swiss CH1903+ / LV95 Projected CRS (EPSG:2056) */
+#50=IFCPROJECTEDCRS('CH1903+ / LV95','EPSG:2056',,$,'UTM','32',#51,'LHN95');
+#51=IFCSIUNIT(*,.LENGTHUNIT.,$,.METRE.);
+
+/* Map Conversion with transformation parameters */
+#52=IFCMAPCONVERSION(#53,#50,2600000.0,1200000.0,500.0,1.0,0.0,1.0,$,$);
+
+/* Geometric Representation Context with CRS */
+#53=IFCGEOMETRICREPRESENTATIONCONTEXT($,'Model',3,1.E-05,#54,$);
+#54=IFCAXIS2PLACEMENT3D(#55,$,$);
+#55=IFCCARTESIANPOINT((0.,0.,0.));
+
+/* ============================================ */
+/* PROJECT WITH COORDINATE OPERATION           */
+/* ============================================ */
+#1=IFCPROJECT('2xGZp$V$D3WWIgLBB1jexR',#10,'ASTRA BIM Project IFC4X3','Swiss infrastructure project with CH1903+ / LV95 georeferencing using IFC4X3_ADD2',$,$,$,(#53),#3);
+
+/* Unit Assignment - IFC4X3 style */
+#3=IFCUNITASSIGNMENT((#4,#5,#6,#7));
+#4=IFCSIUNIT(*,.LENGTHUNIT.,.MILLI.,.METRE.);
+#5=IFCSIUNIT(*,.PLANEANGLEUNIT.,$,.RADIAN.);
+#6=IFCSIUNIT(*,.TIMEUNIT.,$,.SECOND.);
+#7=IFCSIUNIT(*,.AREAUNIT.,$,.SQUARE_METRE.);
+
+/* Owner History */
+#10=IFCOWNERHISTORY(#11,#12,$,.ADDED.,1736420000,$,$,1736420000);
+#11=IFCPERSONANDORGANIZATION(#13,#14,$);
+#12=IFCAPPLICATION(#14,'2025.1','ASTRA BIM Tool IFC4X3','IFC4X3_ADD2 Exporter');
+#13=IFCPERSON($,'Engineer','Data',$,$,$,$,$);
+#14=IFCORGANIZATION($,'ASTRA','Swiss Federal Roads Office',$,$);
+
+/* ============================================ */
+/* SPATIAL STRUCTURE                            */
+/* ============================================ */
+/* Site with Swiss coordinates and enhanced IFC4X3 positioning */
+#20=IFCSITE('3Zu5Bv_2v9ugbq7V4GJi8A',#10,'Construction Site','Infrastructure site in Switzerland - IFC4X3',$,#21,$,$,.ELEMENT.,(47,22,37,284945),(8,32,30,82181),500.,$,$);
+#21=IFCLOCALPLACEMENT($,#22);
+#22=IFCAXIS2PLACEMENT3D(#23,$,$);
+#23=IFCCARTESIANPOINT((0.,0.,0.));
+
+/* Building (for structure - IFC4X3 allows better infrastructure modeling) */
+#30=IFCBUILDING('1HspZKfLn2x8A7WUqJUmAm',#10,'Infrastructure Container','Virtual container for elements in IFC4X3',$,#31,$,$,$,$,$,$);
+#31=IFCLOCALPLACEMENT(#21,#32);
+#32=IFCAXIS2PLACEMENT3D(#33,$,$);
+#33=IFCCARTESIANPOINT((0.,0.,0.));
+
+/* Building Storey */
+#40=IFCBUILDINGSTOREY('0C87kaqBXF$xpGmTZ7zxNz',#10,'Reference Level','Reference level for virtual elements',$,#41,$,$,$,0.);
+#41=IFCLOCALPLACEMENT(#31,#42);
+#42=IFCAXIS2PLACEMENT3D(#43,$,$);
+#43=IFCCARTESIANPOINT((0.,0.,0.));
+
+/* Spatial Relationships - IFC4X3 style */
+#25=IFCRELAGGREGATES('2MGq0F8WjBp8bxm6_fLNKN',#10,'Project to Site',$,#1,(#20));
+#26=IFCRELAGGREGATES('3YRNd0zKP8FgKlYRtRuMQG',#10,'Site to Building',$,#20,(#30));
+#27=IFCRELAGGREGATES('1FCjFhqZv7OQuVfk1dom4F',#10,'Building to Storey',$,#30,(#40));
+
+/* ============================================ */
+/* VIRTUAL ELEMENT 1 with BP_ASTRA coordinates */
+/* ============================================ */
+#100=IFCVIRTUALELEMENT('1qc5Lh3vf2IA8dQXeoZXF1',#10,'Virtual Reference Point 1','First BP reference point for IFC4X3 georeferencing in Swiss LV95',$,#101,$,'BP-001',$);
+#101=IFCLOCALPLACEMENT(#41,#102);
+#102=IFCAXIS2PLACEMENT3D(#103,$,$);
+#103=IFCCARTESIANPOINT((0.,0.,0.));
+
+/* Property Set for Virtual Element 1 */
+#110=IFCPROPERTYSET('0btGYrWmH5xQyQvdZI8_kB',#10,'CustomPset_BP_ASTRA','ASTRA BP Coordinates for georeferencing in Swiss LV95',(#111,#112,#113));
+#111=IFCPROPERTYSINGLEVALUE('BP_X','X Coordinate in CH1903+ / LV95 (Easting)',IFCREAL(2600000.),$);
+#112=IFCPROPERTYSINGLEVALUE('BP_Y','Y Coordinate in CH1903+ / LV95 (Northing)',IFCREAL(1200000.),$);
+#113=IFCPROPERTYSINGLEVALUE('BP_Z','Elevation in LHN95 vertical datum',IFCREAL(500.),$);
+
+/* Relationship between Virtual Element 1 and its property set */
+#115=IFCRELDEFINESBYPROPERTIES('3K_yMNmAT9XvYrCMSBM2A7',#10,'BP Properties Assignment',$,(#100),#110);
+
+/* ============================================ */
+/* VIRTUAL ELEMENT 2 with BP_ASTRA coordinates */
+/* ============================================ */
+#200=IFCVIRTUALELEMENT('2Nc6Mi4wg3JB9eRYfpAZB2',#10,'Virtual Reference Point 2','Second BP reference point for IFC4X3 georeferencing in Swiss LV95',$,#201,$,'BP-002',$);
+#201=IFCLOCALPLACEMENT(#41,#202);
+#202=IFCAXIS2PLACEMENT3D(#203,$,$);
+#203=IFCCARTESIANPOINT((100.,50.,1.));
+
+/* Property Set for Virtual Element 2 */
+#210=IFCPROPERTYSET('1cuHZsXnI6yRzRweAJ9_lC',#10,'CustomPset_BP_ASTRA','ASTRA BP Coordinates for georeferencing in Swiss LV95',(#211,#212,#213));
+#211=IFCPROPERTYSINGLEVALUE('BP_X','X Coordinate in CH1903+ / LV95 (Easting)',IFCREAL(2600100.),$);
+#212=IFCPROPERTYSINGLEVALUE('BP_Y','Y Coordinate in CH1903+ / LV95 (Northing)',IFCREAL(1200050.),$);
+#213=IFCPROPERTYSINGLEVALUE('BP_Z','Elevation in LHN95 vertical datum',IFCREAL(501.),$);
+
+/* Relationship between Virtual Element 2 and its property set */
+#215=IFCRELDEFINESBYPROPERTIES('0L_zNOnBU8YwZsCNTCN3B8',#10,'BP Properties Assignment',$,(#200),#210);
+
+/* ============================================ */
+/* VIRTUAL ELEMENT 3 with BP_ASTRA coordinates */
+/* ============================================ */
+#300=IFCVIRTUALELEMENT('3Od7Nj5xh4KC0fSZgqBZC3',#10,'Virtual Reference Point 3','Third BP reference point for IFC4X3 georeferencing in Swiss LV95',$,#301,$,'BP-003',$);
+#301=IFCLOCALPLACEMENT(#41,#302);
+#302=IFCAXIS2PLACEMENT3D(#303,$,$);
+#303=IFCCARTESIANPOINT((50.,100.,2.));
+
+/* Property Set for Virtual Element 3 */
+#310=IFCPROPERTYSET('2dvIAtYoJ7zSaTxfBK0_mD',#10,'CustomPset_BP_ASTRA','ASTRA BP Coordinates for georeferencing in Swiss LV95',(#311,#312,#313));
+#311=IFCPROPERTYSINGLEVALUE('BP_X','X Coordinate in CH1903+ / LV95 (Easting)',IFCREAL(2600050.),$);
+#312=IFCPROPERTYSINGLEVALUE('BP_Y','Y Coordinate in CH1903+ / LV95 (Northing)',IFCREAL(1200100.),$);
+#313=IFCPROPERTYSINGLEVALUE('BP_Z','Elevation in LHN95 vertical datum',IFCREAL(502.),$);
+
+/* Relationship between Virtual Element 3 and its property set */
+#315=IFCRELDEFINESBYPROPERTIES('1M_aOPoCV9YxAtDoUDO4C9',#10,'BP Properties Assignment',$,(#300),#310);
+
+/* ============================================ */
+/* SPATIAL CONTAINMENT                         */
+/* ============================================ */
+/* Virtual elements contained in building storey */
+#400=IFCRELCONTAINEDINSPATIALSTRUCTURE('2TnVBmWqH1r8SsN8g7p0Xb',#10,'Virtual Elements in Storey','Virtual reference points placement',(#100,#200,#300),#40);
+
+/* ============================================ */
+/* OPTIONAL: Representation for visualization   */
+/* ============================================ */
+/* Point representation for Virtual Element 1 */
+#500=IFCSHAPEREPRESENTATION(#53,'Body','GeometricCurveSet',(#501));
+#501=IFCGEOMETRICCURVESET((#502));
+#502=IFCCARTESIANPOINT((0.,0.,0.));
+#503=IFCPRODUCTDEFINITIONSHAPE($,$,(#500));
+
+/* Point representation for Virtual Element 2 */
+#510=IFCSHAPEREPRESENTATION(#53,'Body','GeometricCurveSet',(#511));
+#511=IFCGEOMETRICCURVESET((#512));
+#512=IFCCARTESIANPOINT((100.,50.,1.));
+#513=IFCPRODUCTDEFINITIONSHAPE($,$,(#510));
+
+/* Point representation for Virtual Element 3 */
+#520=IFCSHAPEREPRESENTATION(#53,'Body','GeometricCurveSet',(#521));
+#521=IFCGEOMETRICCURVESET((#522));
+#522=IFCCARTESIANPOINT((50.,100.,2.));
+#523=IFCPRODUCTDEFINITIONSHAPE($,$,(#520));
+
+/* Update virtual elements with representations */
+/* Note: In IFC4X3, we need to reassign after initial definition */
+/* This is done through updating the representation attribute */
+
+ENDSEC;
+END-ISO-10303-21;
