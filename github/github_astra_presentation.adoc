@@ -1,0 +1,918 @@
+= GitHub Enterprise für ASTRA
+:author: ASTRA Digital Transformation Team
+:email: digital@astra.admin.ch
+:date: November 2024
+:revision: 1.0
+:toc: left
+:toc-title: Agenda
+:toclevels: 2
+:numbered:
+:icons: font
+:source-highlighter: rouge
+:imagesdir: ./images
+:data-uri:
+:lang: de
+
+[.lead]
+Entscheidungsvorlage für die Einführung von GitHub Enterprise beim Bundesamt für Strassen
+
+== Executive Summary
+
+[.notes]
+****
+Diese Präsentation zeigt die optimale GitHub-Lösung für ASTRA mit Fokus auf Compliance, Sicherheit und Wirtschaftlichkeit.
+****
+
+=== Kernbotschaft
+
+[quote, Empfehlung für ASTRA]
+____
+GitHub Enterprise Cloud mit EU-Datenresidenz bietet die optimale Balance zwischen Compliance, Funktionalität und Kosten für Schweizer Bundesbehörden.
+____
+
+=== Investitionsübersicht
+
+[cols="2,3,2", options="header"]
+|===
+| Zeitraum
+| Konfiguration
+| Kosten (CHF)
+
+| Jahr 1 (30 Benutzer)
+| Basis + Schulung
+| 23'921
+
+| Jahr 2+ (30 Benutzer)
+| Basis + Support
+| 8'921
+
+| Mit Full Security
+| Alle Features
+| 32'561
+|===
+
+[WARNING]
+====
+Ohne GitHub Enterprise fehlen kritische Compliance-Features:
+
+* Keine EU-Datenresidenz
+* Keine SAML SSO Integration
+* Keine Audit-Logs
+* Kein Advanced Security
+====
+
+== Marktübersicht GitHub-Preismodelle
+
+=== Preisvergleich
+
+[plantuml, github-pricing-overview, svg]
+----
+@startuml
+!theme plain
+skinparam backgroundColor #FEFEFE
+
+rectangle "GitHub Preismodelle" {
+  rectangle "Free\n0 CHF" as free #lightgreen
+  rectangle "Team\n4 CHF/User" as team #yellow
+  rectangle "Enterprise Cloud\n21 CHF/User" as cloud #orange
+  rectangle "Enterprise Server\n21 CHF + Infra" as server #red
+}
+
+free -right-> team : "+Private Repos"
+team -right-> cloud : "+SSO +Compliance"
+cloud -right-> server : "+Full Control"
+
+note bottom of cloud : **EMPFEHLUNG**\nOptimal für ASTRA
+@enduml
+----
+
+=== Feature-Matrix
+
+[%header,cols="3,^1,^1,^1,^1"]
+|===
+| Feature | Free | Team | Enterprise Cloud | Server
+
+| Private Repositories
+| ✅
+| ✅
+| ✅
+| ✅
+
+| GitHub Actions (Minuten)
+| 2'000
+| 3'000
+| 50'000
+| Unbegrenzt
+
+| SAML SSO
+| ❌
+| ❌
+| ✅
+| ✅
+
+| EU-Datenresidenz
+| ❌
+| ❌
+| ✅
+| Selbst
+
+| Compliance (ISO/SOC)
+| ❌
+| ❌
+| ✅
+| ✅
+
+| Support Level
+| Community
+| Email
+| 24/7 Enterprise
+| 24/7 Enterprise
+|===
+
+== Kostenanalyse für ASTRA
+
+=== Skalierungsszenarien
+
+[%header,cols="2,2,2,2"]
+|===
+| Szenario | 10 Benutzer | 30 Benutzer | 70 Benutzer
+
+| Basis-Lizenz/Jahr
+| CHF 2'520
+| CHF 7'560
+| CHF 17'640
+
+| Premium Support
+| CHF 454
+| CHF 1'361
+| CHF 3'881
+
+| Advanced Security
+| CHF 2'304
+| CHF 14'112
+| CHF 32'928
+
+| **Total/Jahr**
+| **CHF 5'278**
+| **CHF 23'033**
+| **CHF 54'449**
+|===
+
+=== TCO-Vergleich: Cloud vs. Server
+
+[plantuml, tco-comparison, svg]
+----
+@startuml
+!theme plain
+skinparam backgroundColor #FEFEFE
+
+:30 Benutzer Szenario;
+
+partition "Enterprise Cloud" {
+  :Lizenz: 7'560 CHF;
+  :Support: 1'361 CHF;
+  :Security: 14'112 CHF;
+  :Infrastruktur: 0 CHF;
+  :Personal: 0 CHF;
+  #lightgreen:**Total: 23'033 CHF**;
+}
+
+partition "Enterprise Server" {
+  :Lizenz: 7'560 CHF;
+  :Support: 1'361 CHF;
+  :Security: 14'112 CHF;
+  :Infrastruktur: 72'000 CHF;
+  :DevOps (1 FTE): 120'000 CHF;
+  #red:**Total: 215'033 CHF**;
+}
+
+note right
+  **Ersparnis mit Cloud:**
+  192'000 CHF/Jahr
+end note
+@enduml
+----
+
+== Repository-Organisation für ASTRA
+
+=== Organisationsstruktur
+
+[plantuml, org-structure, svg]
+----
+@startuml
+!theme plain
+skinparam backgroundColor #FEFEFE
+
+package "ASTRA GitHub Organisation" {
+  
+  package "Teams" {
+    [Governance-Team]
+    [Dokumentations-Editoren]
+    [IT-Operations]
+    [Projekt-Teams]
+  }
+  
+  package "Repository-Typen" {
+    folder "Öffentlich" {
+      [astra-api-docs]
+      [astra-open-data]
+    }
+    
+    folder "Intern" {
+      [admin-policies]
+      [infrastructure-code]
+      [docs-architecture]
+    }
+    
+    folder "Privat" {
+      [security-audits]
+      [personal-data]
+    }
+  }
+}
+
+[Governance-Team] --> [admin-policies] : verwaltet
+[Dokumentations-Editoren] --> [docs-architecture] : pflegt
+[IT-Operations] --> [infrastructure-code] : entwickelt
+@enduml
+----
+
+=== Namenskonvention
+
+.Repository-Namensschema
+[source,text]
+----
+[abteilung]-[projekt]-[typ]
+
+Beispiele:
+├── strassen-digital-transform-docs
+├── admin-policy-templates
+├── infrastructure-monitoring-api
+├── verkehr-analysis-web
+└── sicherheit-audit-cli
+----
+
+== Sicherheitsarchitektur
+
+=== Compliance-Framework
+
+[%header,cols="3,2,3"]
+|===
+| Anforderung | Status | Nachweis
+
+| DSG/revDSG Konformität
+| ✅ Erfüllt
+| EU-Schweiz Adequacy Decision
+
+| Datenlokalität
+| ✅ EU-Region
+| Azure West Europe
+
+| ISO 27001
+| ✅ Zertifiziert
+| Gültig bis 2027
+
+| SOC 2 Type 2
+| ✅ Verfügbar
+| Jährlich aktualisiert
+
+| GDPR/DSGVO
+| ✅ Konform
+| DPA mit SCCs
+
+| Audit-Trail
+| ✅ 6 Monate
+| + SIEM Streaming
+
+| Verschlüsselung
+| ✅ AES-256
+| Transit & Rest
+|===
+
+=== Advanced Security Komponenten
+
+[plantuml, security-layers, svg]
+----
+@startuml
+!theme plain
+skinparam backgroundColor #FEFEFE
+
+rectangle "Basis-Sicherheit (Kostenlos)" as basis #lightgreen {
+  :- 2FA Pflicht;
+  :- Signed Commits;
+  :- Branch Protection;
+  :- IP Allowlists;
+}
+
+rectangle "Secret Protection (+19 CHF)" as secret #yellow {
+  :- 200+ Secret Patterns;
+  :- Push Protection;
+  :- Custom Patterns;
+  :- Security Campaigns;
+}
+
+rectangle "Code Security (+30 CHF)" as code #orange {
+  :- CodeQL Analysis;
+  :- Dependency Scanning;
+  :- SARIF Integration;
+  :- AI-powered Fixes;
+}
+
+basis -down-> secret : Stufe 1
+secret -down-> code : Stufe 2
+
+note right of secret
+  **Sofort empfohlen**
+  5'472 CHF/Jahr
+  für 30 Benutzer
+end note
+
+note right of code
+  **Jahr 2**
+  8'640 CHF/Jahr
+  für 30 Benutzer
+end note
+@enduml
+----
+
+== Implementierungs-Roadmap
+
+=== 4-Phasen-Modell
+
+[plantuml, roadmap-phases, svg]
+----
+@startuml
+!theme plain
+skinparam backgroundColor #FEFEFE
+
+|Phase 1|
+start
+:Enterprise Cloud Setup;
+:SAML SSO Integration;
+:Team-Struktur;
+:IP-Allowlists;
+|Phase 2|
+:Secret Protection;
+:Audit Log Streaming;
+:CODEOWNERS;
+:Branch Protection;
+|Phase 3|
+:GitHub Skills Training;
+:Expert Services;
+:Champions-Programm;
+:Knowledge Base;
+|Phase 4|
+:Self-hosted Runners;
+:Repository Templates;
+:Workflow-Optimierung;
+:Copilot Evaluation;
+stop
+
+note right
+  **Zeitplan:**
+  Phase 1: Monate 1-2
+  Phase 2: Monate 3-4
+  Phase 3: Monate 2-6
+  Phase 4: Monate 7-12
+end note
+@enduml
+----
+
+=== Zeitplan und Meilensteine
+
+[%header,cols="1,3,2,2"]
+|===
+| Monat | Aktivität | Verantwortlich | Status
+
+| 1
+| Enterprise Cloud Einrichtung
+| IT-Operations
+| 🔄 Geplant
+
+| 2
+| SAML/SSO Integration
+| IT-Security
+| 🔄 Geplant
+
+| 3
+| Secret Protection Rollout
+| Security Team
+| 🔄 Geplant
+
+| 4
+| Team-Schulungen
+| HR/Training
+| 🔄 Geplant
+
+| 6
+| Migration abgeschlossen
+| Alle Teams
+| 🔄 Geplant
+
+| 12
+| Optimierung & Review
+| Governance
+| 🔄 Geplant
+|===
+
+== Branching-Strategie
+
+=== GitHub Flow für ASTRA
+
+[plantuml, github-flow, svg]
+----
+@startuml
+!theme plain
+skinparam backgroundColor #FEFEFE
+
+|Entwickler|
+start
+:Feature Branch erstellen;
+:Code entwickeln;
+:Tests schreiben;
+:Pull Request öffnen;
+
+|Reviewer|
+:Code Review;
+if (Genehmigt?) then (ja)
+  :Merge to Main;
+else (nein)
+  :Feedback geben;
+  |Entwickler|
+  :Änderungen umsetzen;
+endif
+
+|CI/CD|
+:Automatische Tests;
+:Security Scans;
+:Deployment;
+stop
+@enduml
+----
+
+=== Branch Protection Rules
+
+.Empfohlene Einstellungen
+[source,yaml]
+----
+branch_protection:
+  main:
+    required_reviews: 2
+    dismiss_stale_reviews: true
+    require_code_owner_reviews: true
+    required_status_checks:
+      - continuous-integration
+      - security-scan
+      - documentation-check
+    enforce_admins: true
+    require_signed_commits: true
+    require_conversation_resolution: true
+----
+
+== Nutzen-Analyse
+
+=== Quantifizierbarer Nutzen
+
+[%header,cols="3,2,2"]
+|===
+| Nutzen-Kategorie | Beschreibung | Wert/Jahr (CHF)
+
+| Produktivitätssteigerung
+| 20% durch moderne Tools
+| 240'000
+
+| Infrastruktur-Ersparnis
+| Keine eigenen Server
+| 96'000
+
+| DevOps Personal
+| 1.0 FTE eingespart
+| 120'000
+
+| Sicherheitsvorfälle
+| 60% Reduktion
+| 150'000
+
+| Compliance-Automation
+| Audit-Reports automatisch
+| 40'000
+
+| Time-to-Market
+| 30% schnellere Releases
+| 180'000
+
+| **Gesamt-Nutzen**
+| 
+| **826'000**
+|===
+
+=== ROI-Berechnung
+
+[NOTE]
+====
+.Return on Investment (30 Benutzer)
+* Investition Jahr 1: CHF 32'561
+* Quantifizierbarer Nutzen: CHF 826'000
+* **ROI: 2'436%**
+* **Amortisation: < 2 Monate**
+====
+
+== Migration von bestehenden Systemen
+
+=== GitHub Enterprise Importer
+
+[%header,cols="2,3,1"]
+|===
+| Quellsystem | Migration-Support | Aufwand
+
+| Azure DevOps
+| ✅ Vollständig automatisiert
+| 2-3 Wochen
+
+| Bitbucket Server
+| ✅ Vollständig automatisiert
+| 2-3 Wochen
+
+| GitLab
+| ⚠️ Expert Services erforderlich
+| 4-6 Wochen
+
+| Perforce
+| ⚠️ Expert Services erforderlich
+| 4-6 Wochen
+
+| SVN
+| ❌ Manuell
+| 8-12 Wochen
+|===
+
+=== Migration-Strategie
+
+[plantuml, migration-strategy, svg]
+----
+@startuml
+!theme plain
+skinparam backgroundColor #FEFEFE
+
+start
+:Source System Analysis;
+if (Unterstützt?) then (ja)
+  :GitHub Enterprise Importer;
+  :Trial Migration;
+  :Validierung;
+  :Production Migration;
+else (nein)
+  :Expert Services;
+  :Custom Migration Plan;
+  :Phased Migration;
+endif
+:Post-Migration Support;
+:Team Training;
+stop
+
+note right
+  Budget: 0-30'000 CHF
+  je nach Komplexität
+end note
+@enduml
+----
+
+== Support-Modelle
+
+=== Support-Level Vergleich
+
+[%header,cols="3,2,2,2"]
+|===
+| Feature | Standard | Premium | Premium Plus
+
+| Reaktionszeit (Urgent)
+| Best Effort
+| 30 Minuten
+| 30 Minuten
+
+| Support-Kanäle
+| Email
+| Email + Phone
+| Email + Phone + Slack
+
+| Dedicated CSM
+| ❌
+| ❌
+| ✅
+
+| Health Checks
+| ❌
+| ❌
+| Quarterly
+
+| Technical Advisory Hours
+| 0
+| 0
+| 12/Quartal
+
+| Inkludierte Schulung
+| ❌
+| ❌
+| 1x/Jahr (5'000 CHF)
+
+| Kosten (% der Lizenz)
+| 0%
+| 18%
+| 22%
+|===
+
+=== Empfehlung nach Unternehmensgrösse
+
+[plantuml, support-recommendation, svg]
+----
+@startuml
+!theme plain
+skinparam backgroundColor #FEFEFE
+
+start
+if (Benutzer < 20?) then (ja)
+  :Standard Support;
+elseif (Benutzer < 50?) then (ja)
+  :Premium Support;
+  #yellow:1'361 CHF/Jahr;
+else (nein)
+  :Premium Plus;
+  #orange:3'881 CHF/Jahr;
+endif
+stop
+@enduml
+----
+
+== Schulungskonzept
+
+=== Schulungsmatrix
+
+[%header,cols="3,2,2,2"]
+|===
+| Zielgruppe | Methode | Dauer | Kosten
+
+| Alle Benutzer
+| GitHub Skills (online)
+| 3-4 Stunden
+| Kostenlos
+
+| Entwickler (15-20)
+| Expert Services
+| 2 Tage
+| 5'000 CHF
+
+| Administratoren (2-3)
+| Expert Services
+| 2 Tage
+| 5'000 CHF
+
+| CI/CD Team (8-10)
+| GitHub Actions Training
+| 2 Tage
+| 5'000 CHF
+
+| Security Team (5)
+| GHAS Training
+| 1 Tag
+| 6'000 CHF
+
+| **Total Jahr 1**
+|
+|
+| **21'000 CHF**
+|===
+
+=== Champions-Programm
+
+[plantuml, champions-program, svg]
+----
+@startuml
+!theme plain
+skinparam backgroundColor #FEFEFE
+
+actor "GitHub Champions\n(3-5 Personen)" as champions
+actor "Teams\n(30-70 Benutzer)" as teams
+
+champions --> teams : Peer Support
+champions --> teams : Best Practices
+champions --> teams : Troubleshooting
+teams --> champions : Feedback
+teams --> champions : Anfragen
+
+note bottom of champions
+  - Erweiterte Schulung
+  - 20% Zeitallokation
+  - Quartals-Workshops
+end note
+@enduml
+----
+
+== Risikobewertung
+
+=== Risikomatrix
+
+[%header,cols="3,2,2,4"]
+|===
+| Risiko | Wahrschein. | Impact | Mitigation
+
+| Widerstand gegen Veränderung
+| Mittel
+| Hoch
+| Umfassende Schulung, schrittweise Einführung
+
+| Migration-Komplexität
+| Niedrig
+| Mittel
+| Expert Services als Backup
+
+| Budget-Überschreitung
+| Niedrig
+| Mittel
+| Stufenweise Security-Einführung
+
+| Compliance-Bedenken
+| Niedrig
+| Hoch
+| EU-Datenresidenz, vollständige DPA
+
+| Vendor Lock-in
+| Mittel
+| Niedrig
+| Git-Standard, Export-Optionen verfügbar
+
+| Performance-Probleme
+| Niedrig
+| Niedrig
+| SLA-garantierte Verfügbarkeit 99.9%
+|===
+
+== Entscheidungsmatrix
+
+=== Bewertungskriterien
+
+[%header,cols="3,1,1,1,1"]
+|===
+| Kriterium (Gewichtung) | GitHub Cloud | GitHub Server | GitLab | Bitbucket
+
+| Compliance (30%)
+| ⭐⭐⭐⭐⭐
+| ⭐⭐⭐⭐
+| ⭐⭐⭐
+| ⭐⭐⭐
+
+| Kosten (25%)
+| ⭐⭐⭐⭐
+| ⭐⭐
+| ⭐⭐⭐
+| ⭐⭐⭐⭐
+
+| Features (20%)
+| ⭐⭐⭐⭐⭐
+| ⭐⭐⭐⭐
+| ⭐⭐⭐⭐
+| ⭐⭐⭐
+
+| Wartung (15%)
+| ⭐⭐⭐⭐⭐
+| ⭐⭐
+| ⭐⭐
+| ⭐⭐⭐
+
+| Zukunftssicherheit (10%)
+| ⭐⭐⭐⭐⭐
+| ⭐⭐⭐
+| ⭐⭐⭐
+| ⭐⭐⭐
+
+| **Gesamtbewertung**
+| **4.7/5**
+| **3.1/5**
+| **3.2/5**
+| **3.3/5**
+|===
+
+== Finale Empfehlung
+
+=== Empfohlene Konfiguration
+
+[IMPORTANT]
+====
+.GitHub Enterprise Cloud mit EU-Datenresidenz
+* Basis-Lizenz für 30 Benutzer: CHF 7'560/Jahr
+* Premium Support: CHF 1'361/Jahr
+* Secret Protection: CHF 5'472/Jahr (sofort)
+* Code Security: CHF 8'640/Jahr (Jahr 2)
+* Schulung Jahr 1: CHF 15'000
+* **Total Jahr 1: CHF 29'393**
+====
+
+=== Entscheidungspunkte
+
+[%header,cols="1,4"]
+|===
+| ✅ | Entscheidung erforderlich
+
+| 1
+| Budget-Freigabe für CHF 30'000 (Jahr 1)
+
+| 2
+| Auswahl EU-Datenresidenz (Compliance-Pflicht)
+
+| 3
+| SAML SSO Integration genehmigen
+
+| 4
+| Secret Protection sofort aktivieren
+
+| 5
+| Schulungsprogramm beauftragen
+|===
+
+== Nächste Schritte
+
+=== Aktionsplan
+
+[%header,cols="1,3,2"]
+|===
+| Woche | Aktion | Verantwortlich
+
+| 1-2
+| Budget-Genehmigung einholen
+| Management
+
+| 3-4
+| GitHub Government Sales kontaktieren
+| Procurement
+
+| 5-6
+| Proof of Concept (5 Benutzer)
+| IT-Operations
+
+| 7-8
+| Vertragsverhandlung
+| Legal/Procurement
+
+| 9-12
+| Phase 1 Implementation
+| IT-Operations
+
+| 13-24
+| Vollständige Migration
+| Alle Teams
+|===
+
+=== Kontakte
+
+.GitHub Government Schweiz
+[sidebar]
+****
+* Spezialisierte Berater für öffentlichen Sektor
+* Erfahrung mit Schweizer Bundesbehörden
+* Compliance-Expertise für DSG/GDPR
+
+**Empfohlene Partner:**
+
+* Eficode (Premier Partner)
+* Zühlke Engineering AG
+* ti&m AG
+****
+
+== Appendix
+
+=== Glossar
+
+[glossary]
+ASTRA:: Bundesamt für Strassen
+DPA:: Data Protection Agreement
+DSG:: Datenschutzgesetz (Schweiz)
+EMU:: Enterprise Managed Users
+FedRAMP:: Federal Risk and Authorization Management Program
+GDPR:: General Data Protection Regulation
+GHAS:: GitHub Advanced Security
+ROI:: Return on Investment
+SAML:: Security Assertion Markup Language
+SCCs:: Standard Contractual Clauses
+SIEM:: Security Information and Event Management
+SSO:: Single Sign-On
+TCO:: Total Cost of Ownership
+
+=== Referenzen
+
+.Erfolgreiche Government-Implementierungen
+* UK Government Digital Service: 3'000+ Benutzer
+* US General Services Administration: 5'000+ Benutzer
+* NASA: 10'000+ Benutzer
+* Stadt Amsterdam: 1'500+ Benutzer
+* Australische Regierung: 2'000+ Benutzer
+
+=== Weiterführende Ressourcen
+
+* https://government.github.com[GitHub Government Portal]
+* https://docs.github.com/enterprise-cloud[Enterprise Cloud Dokumentation]
+* https://skills.github.com[GitHub Skills Training]
+* https://github.blog/changelog[GitHub Changelog]
+
+---
+
+[.small]
+_Dokument erstellt: November 2024 | Version 1.0 | Klassifikation: Intern_
