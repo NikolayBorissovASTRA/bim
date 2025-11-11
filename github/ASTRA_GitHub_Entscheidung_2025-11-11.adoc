@@ -68,7 +68,7 @@ Zusatzkosten je nach Nutzung:
 | *Präsentation* | Management-taugliche Folien | AsciiDoc, PDF-Exports | {org-public}/presentations-… (public) nach Freigabe
 |===
 
-[mermaid]
+[source, mermaid]
 ....
 flowchart LR
   EA[Enterprise Account]:::e
@@ -104,7 +104,7 @@ flowchart LR
 ....
 
 == Review- und Entwicklungsprozess
-[mermaid]
+[source, mermaid]
 ....
 flowchart TD
   A[Feature-Branch] --> B[PR eröffnet]
