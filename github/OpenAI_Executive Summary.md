@@ -119,6 +119,149 @@ graph LR
   T3 --> B2
 ```
 
+Hier ist die korrigierte und verbesserte Mermaid-Visualisierung. Der Fehler kam durch Sonderzeichen (Mittelpunkte ·) und Leerzeichen im Subgraph-Namen. In Mermaid sollten Subgraph-Bezeichner einfache, gültige Identifikatoren sein (keine Sonderzeichen). Der sichtbare Titel kann getrennt vom technischen Identifier stehen.
+
+Korrigierte Basisversion (gleiche Struktur, aber lauffähig):
+
+```mermaid
+graph LR
+  %% Hauptorganisation
+  subgraph ASTRA_GitHub_Organisation["ASTRA GitHub Organisation"]
+    direction TB
+    subgraph Interne_Repos_Privat["Interne Repos (privat)"]
+      A1[astra-intern-doku]
+      A2[astra-vorlagen]
+      A3[astra-tools-projektX]
+    end
+    subgraph Oeffentliche_Repos["Öffentliche Repos"]
+      B1[astra-public-docs]
+      B2[astra-oss-toolY]
+    end
+  end
+
+  %% Rollen / Teams
+  subgraph Rollen_Teams["Rollen / Teams"]
+    T1[Maintainer]
+    T2[Reviewer]
+    T3[Contributors]
+  end
+
+  %% Beziehungen
+  T1 --> A1
+  T1 --> A2
+  T1 --> A3
+  T1 --> B1
+  T1 --> B2
+
+  T2 --> A1
+  T2 --> A2
+  T2 --> A3
+  T2 --> B1
+  T2 --> B2
+
+  T3 --> A3
+  T3 --> B2
+
+  %% Klassen für Styling
+  classDef intern fill:#ffe8c2,stroke:#d48500,stroke-width:1.5px;
+  classDef oeff fill:#e0f4ff,stroke:#0077b6,stroke-width:1.5px;
+  classDef role fill:#f0f0f0,stroke:#555,stroke-width:1px,font-weight:bold;
+  classDef maint fill:#fff3cd,stroke:#ffb300;
+  classDef review fill:#e8e8ff,stroke:#5e5ee6;
+  classDef contrib fill:#eaffea,stroke:#2f8f2f;
+
+  class A1,A2,A3 intern;
+  class B1,B2 oeff;
+  class T1 role,maint;
+  class T2 role,review;
+  class T3 role,contrib;
+
+  %% Optionale Link-Stile (GitHub kann einige ignorieren)
+  linkStyle default stroke:#666,stroke-width:1.1px;
+```
+
+Alternative mit vertikaler Gesamt-Ausrichtung (Top-Down), falls du die Rollen oben oder unten haben möchtest:
+
+```mermaid
+graph TD
+  subgraph Rollen["Rollen"]
+    T1[Maintainer]
+    T2[Reviewer]
+    T3[Contributors]
+  end
+
+  subgraph Repos["Repos (Interne & Öffentliche)"]
+    subgraph Intern["Intern (privat)"]
+      A1[astra-intern-doku]
+      A2[astra-vorlagen]
+      A3[astra-tools-projektX]
+    end
+    subgraph Public["Öffentlich"]
+      B1[astra-public-docs]
+      B2[astra-oss-toolY]
+    end
+  end
+
+  T1 --> A1 & A2 & A3 & B1 & B2
+  T2 --> A1 & A2 & A3 & B1 & B2
+  T3 --> A3 & B2
+
+  classDef intern fill:#faf5e4,stroke:#c99700;
+  classDef public fill:#eef9ff,stroke:#0096c7;
+  classDef role fill:#f7f7f7,stroke:#444,font-weight:600;
+  class A1,A2,A3 intern;
+  class B1,B2 public;
+  class T1,T2,T3 role;
+```
+
+Variante mit Aggregationsknoten für Rechte (reduziert visuelle Wiederholung):
+
+```mermaid
+graph LR
+  %% Rollen
+  T1[Maintainer]
+  T2[Reviewer]
+  T3[Contributors]
+
+  %% Rechte-Bündel
+  subgraph Rechte_Pakete["Zugriffspakete"]
+    RP_full[Full Zugriff (Intern + Öffentlich)]
+    RP_limited[Begrenzt (nur ausgewählte Projekte)]
+  end
+
+  %% Repos
+  subgraph Repos["Repos"]
+    subgraph Intern_Privat["Intern (privat)"]
+      A1[astra-intern-doku]
+      A2[astra-vorlagen]
+      A3[astra-tools-projektX]
+    end
+    subgraph Public_Open["Öffentlich"]
+      B1[astra-public-docs]
+      B2[astra-oss-toolY]
+    end
+  end
+
+  %% Rollen zu Paketen
+  T1 --> RP_full
+  T2 --> RP_full
+  T3 --> RP_limited
+
+  %% Pakete zu Repos
+  RP_full --> A1 & A2 & A3 & B1 & B2
+  RP_limited --> A3 & B2
+
+  classDef role fill:#f2f2f2,stroke:#555;
+  classDef pkg fill:#ffe4ff,stroke:#b800b8;
+  classDef intern fill:#fff6dd,stroke:#c78b00;
+  classDef pub fill:#e6f7ff,stroke:#0085b3;
+
+  class T1,T2,T3 role;
+  class RP_full,RP_limited pkg;
+  class A1,A2,A3 intern;
+  class B1,B2 pub;
+```
+
 ---
 
 ## 6. Visualisierung: Pull-Request-Review-Flow (vereinfachter Ablauf)
