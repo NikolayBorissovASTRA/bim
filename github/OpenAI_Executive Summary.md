@@ -50,6 +50,7 @@ Branching/PR-Regeln (pro Repo)
 
 Visualisierung: Organisations- und Repos-Schnitt
 
+```mermaid
 graph LR
   subgraph ASTRA·GitHub·Organisation
     direction TB
@@ -71,9 +72,11 @@ graph LR
   T1 --> A1 & A2 & A3 & B1 & B2
   T2 --> A1 & A2 & A3 & B1 & B2
   T3 --> A3 & B2
+```
 
 Visualisierung: PR-Review-Flow (vereinfachter C4-Ablauf)
 
+```mermaid
 flowchart LR
   Dev[Author] -->|erstellt| F[feature/<topic>]
   F -->|PR öffnen| PR[Pull Request]
@@ -81,7 +84,7 @@ flowchart LR
   PR -->|Review| Rev[Reviewer gem. CODEOWNERS]
   Rev -->|Approve| M[Merge in main]
   CI -->|Status OK erforderlich| M
-
+```
 
 ⸻
 
