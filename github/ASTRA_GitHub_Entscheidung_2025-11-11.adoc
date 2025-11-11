@@ -115,7 +115,7 @@ flowchart TD
   F -->|>=1–2 Zustimmungen| G[Merge via Merge-Queue]
   F -->|Änderungswünsche| E
   G --> H[Release-Tag / Pages-Publish]
-  H --> I[Snapshot nach public (falls freigegeben)]
+  H --> I["Snapshot nach public (falls freigegeben)"]
 ....
 
 == Branchschutz- und Ruleset-Policies (Beispiel)
