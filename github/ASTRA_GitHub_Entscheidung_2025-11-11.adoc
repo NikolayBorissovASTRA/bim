@@ -1,0 +1,143 @@
+= GitHub-Auswahl und Betriebsmodell für ASTRA
+Nik — 11.11.2025
+:toc: left
+:sectnums:
+:icons: font
+
+== Executive Summary
+* Zielgruppe: 10–30 Nutzer, Wachstum bis 70, geringe bis mittlere Nutzung, Fokus auf Code, Markdown, Diagramme, JSON/XML, PDFs (~3 MB), gelegentliche PPT (~5 MB).
+* Keine grossen Dateien im Git. LFS nur ausnahmsweise.
+* Sicherheitsanforderungen: Branchschutz, verpflichtende Reviews, klar geregelte Schreibrechte. Option auf SSO/SCIM, IP-Allowlist, Audit-Logs, EU-Datenresidenz.
+* Empfehlung: *GitHub Enterprise Cloud mit EU Data Residency* für ASTRA-weite Governance, interne Repositories (innersource), SSO/SCIM, IP-Allowlist und Audit-Log-Streaming. Für Teams ohne Compliancebedarf ist *GitHub Team* ausreichend.
+* Kostenrahmen (Sitzungslizenzen, ohne Add-ons): Team 4 USD/Nutzer/Monat, Enterprise Cloud 21 USD/Nutzer/Monat. Inklusive Minuten: Team 3’000/Monat, Enterprise Cloud 50’000/Monat.
+
+== Anforderungen und Annahmen
+* Artefaktarten: Code, Dokumentationen, Spezifikationen, Templates, Prozesse, Präsentationen.
+* Keine Speicherung grosser Binärdateien im Git; PDF/PPT innerhalb der Git-Grenzwerte.
+* CI/CD: leichte bis moderate Nutzung (Lint, Tests, statische Checks).
+* Governance: Branchschutz, verpflichtende Reviewer, CODEOWNERS, PR-Checks, Release-Tags.
+* Option: Self-hosted Runner; vorerst nicht notwendig.
+* Veröffentlichung: Öffentliche Repos für freigegebene Artefakte; interne Repos für ASTRA-weit sichtbare, nicht öffentliche Inhalte; private Repos für beschränkten Zugriff.
+
+== Preismodelle und Leistungsumfang (Kurzüberblick)
+[cols="2,2,5,3,2,3", options="header"]
+|===
+| Plan | Preis USD/Nutzer/Monat | Kerneigenschaften | Actions-Minuten inkl./Monat | Packages-Speicher | Typische Eignung
+| Free (Org) | 0 | Private Repos mit eingeschränkten Features; keine verpflichtenden Reviewer/CODEOWNERS in privaten Repos | 2’000 | – | Open Source, Experimente
+| Team | 4 | Repository Rules, Branchschutz, Required Reviewers, CODEOWNERS, Email-Support | 3’000 | 2 GB | Kleine Teams, klare Policies
+| Enterprise Cloud | 21 | Enterprise Account, interne Repos, SAML SSO, SCIM, IP-Allowlist, Audit-Log-Streaming, EU/US/AU Data Residency, 99.9% SLA | 50’000 | 50 GB | Öffentliche Verwaltung, Compliance, Skalierung
+| Enterprise Server | ab 21 + Infrastruktur | Selbst-Hosting, volle Kontrolle, IdP-Integration, Wartungsaufwand intern | – | – | Strikte On-Prem-Anforderungen
+|===
+
+== Kostenabschätzung (Sitzungen, 12 Monate)
+[cols="2,2,2,2", options="header"]
+|===
+| Benutzer | Team (4 USD) | Enterprise Cloud (21 USD) | Differenz
+| 10 | 480 USD/Jahr | 2’520 USD/Jahr | +2’040 USD
+| 30 | 1’440 USD/Jahr | 7’560 USD/Jahr | +6’120 USD
+| 70 | 3’360 USD/Jahr | 17’640 USD/Jahr | +14’280 USD
+|===
+
+[NOTE]
+====
+Zusatzkosten je nach Nutzung:
+* GitHub Actions über Freikontingent: nach Minuten (Linux/Windows/macOS) abgerechnet.
+* Git LFS bei Bedarf: Add-on, volumenbasiert.
+* Advanced Security (optional): Secret Protection und Code Security als Add-ons pro aktivem Committer.
+====
+
+== Sicherheits- und Governance-Funktionen (relevant für ASTRA)
+* *Branchschutz und Repository Rules*: Schreibrechte, Reviewpflicht, Status-Checks, Sign-off, Require Linear History.
+* *CODEOWNERS*: automatische Reviewer-Zuweisung.
+* *Interne Repositories* (Enterprise Cloud): innersource innerhalb des Enterprise-Accounts.
+* *SSO/SCIM* (Enterprise Cloud): zentrale Benutzerverwaltung mit IdP.
+* *IP-Allowlist* und *Audit-Log-Streaming* (Enterprise Cloud): Zugriffshärtung und Nachvollziehbarkeit.
+* *Data Residency EU* (Enterprise Cloud): Code- und Repositoriesdaten in EU-Region.
+* *Pages/Wiki* in privaten Repos: verfügbar in bezahlten Plänen.
+* *Repository-/Dateigrössen*: 100 MB pro Datei erzwungen; grössere Artefakte via Releases oder LFS.
+
+== Repository-Strategie und Begriffe
+[cols="2,3,3,3", options="header"]
+|===
+| Digitales Artefakt | Definition | Beispiele | Repo-Empfehlung
+| *Dokumentation* | Inhalte für Anwender/Stakeholder | Handbücher, Leitfäden, Richtlinien | {org-public}/docs-… (public) oder {org-internal}/docs-… (internal)
+| *Spezifikation* | Normative Vorgaben/Standards | Datenmodelle, IDS, Schnittstellen | {org-internal}/spec-… (internal), Snapshots nach public
+| *Template* | Wiederverwendbare Vorlagen | AsciiDoc-Vorlagen, YAML, JSON | {org-public}/templates-… (public) + Versionierung
+| *Tool/Code* | Skripte, Services, Libraries | Python-Tools, FastAPI, CLIs | {org-internal}/tool-… (internal), ggf. OSS: {org-public}
+| *Prozess* | Arbeitsabläufe und RACI | Reviewprozess, Veröffentlichungen | {org-internal}/process-… (internal)
+| *Präsentation* | Management-taugliche Folien | AsciiDoc, PDF-Exports | {org-public}/presentations-… (public) nach Freigabe
+|===
+
+[mermaid]
+....
+flowchart LR
+  EA[Enterprise Account]:::e
+  OP[Org: astra-public]:::o
+  OI[Org: astra-internal]:::o
+  EA --> OP
+  EA --> OI
+
+  subgraph Public-Repos
+    R1[docs-…]:::r
+    R2[templates-…]:::r
+    R3[spec-snapshots-…]:::r
+  end
+
+  subgraph Internal-Repos
+    I1[spec-…]:::r
+    I2[tool-…]:::r
+    I3[process-…]:::r
+    I4[presentations-…]:::r
+  end
+
+  OP --> R1
+  OP --> R2
+  OP --> R3
+  OI --> I1
+  OI --> I2
+  OI --> I3
+  OI --> I4
+
+  classDef e fill:#e0f0ff,stroke:#2b6cb0,stroke-width:1px;
+  classDef o fill:#f0fdfa,stroke:#0f766e,stroke-width:1px;
+  classDef r fill:#f8fafc,stroke:#64748b,stroke-width:1px;
+....
+
+== Review- und Entwicklungsprozess
+[mermaid]
+....
+flowchart TD
+  A[Feature-Branch] --> B[PR eröffnet]
+  B --> C{Autom. Checks}
+  C -->|Lint/Test| D[OK]
+  C -->|Fehler| E[Fixes]
+  D --> F{Reviews gemäss CODEOWNERS}
+  F -->|>=1–2 Zustimmungen| G[Merge via Merge-Queue]
+  F -->|Änderungswünsche| E
+  G --> H[Release-Tag / Pages-Publish]
+  H --> I[Snapshot nach public (falls freigegeben)]
+....
+
+== Branchschutz- und Ruleset-Policies (Beispiel)
+* Geschützte Branches: `main` obligatorisch geschützt.
+* PR-Pflicht: keine direkten Pushes auf `main`.
+* Reviews: mindestens 1–2 Pflichtreviewer, CODEOWNERS-gestützt.
+* Status-Checks: Lint, Tests, Lizenz-Check, Security-Scan.
+* Signierte Commits empfohlen, Linear History, Squash-Merge.
+* Environments: getrennte Deployments, Secrets nur via Environments.
+* Regelsets: Policy-as-Code für Branches und Tags.
+
+== Betriebsmodell 10–30 Nutzer, Wachstum bis 70
+* Organisationen: *astra-internal* (default: internal/private), *astra-public* (public).
+* Teams/Rollen: Owner, Maintainer, Developer, Reviewer. Schreibrechte nur über Teams.
+* Onboarding/Offboarding: über SSO/SCIM (Enterprise) oder manuell (Team).
+* 2FA erzwingen; optional IP-Allowlist (Enterprise).
+* Actions: leichte Pipelines. Budget-Alerts, Minutenschwellen.
+* Artefakte: PDFs/PPTs im Repo nur innerhalb Limits; grössere Dateien via Releases oder externem Speicher.
+* Veröffentlichungen: Release-Notes, Changelog, GitHub Pages für statische Seiten.
+* Auditing: Enterprise Audit-Log-Streaming in SIEM (Enterprise).
+
+== Empfehlung
+* *Primär*: *GitHub Enterprise Cloud mit EU Data Residency* für ASTRA-weit einheitliche Governance, interne Repos, SSO/SCIM, IP-Allowlist, Audit-Logs, 50’000 Actions-Minuten. Kostenniveau bei 30 Nutzern: ~7’560 USD/Jahr (ohne Add-ons).
+* *Alternativ für kleine, nicht regulierte Einheiten*: *GitHub Team* mit identischen Repo-Policies, später migrierbar in Enterprise Account.
+* *Add-ons nach Bedarf*: Advanced Security (Secret Protection/Code Security) für sicherheitskritische Repos; LFS nur punktuell.

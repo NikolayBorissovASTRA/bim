@@ -1,0 +1,102 @@
+Executive Summary
+	•	Eignung für ASTRA: GitHub Team deckt die heutigen Anforderungen (private Repos, Reviews via Pull Requests, Branch-Schutz, wenige CI-Workflows) vollständig ab, bei sehr niedrigen Lizenzkosten. Enterprise Cloud wird relevant, sobald SSO/SCIM, erweiterte Audit-/Compliance-Kontrollen, IP-Allow-List oder Data Residency (EU) gefordert sind.  ￼
+	•	Kostenrahmen (Listenpreise, exkl. MwSt.): Team 4 USD/User/Monat, Enterprise Cloud 21 USD/User/Monat. Für 30 User: 1 440 USD/Jahr vs. 7 560 USD/Jahr; für 70 User: 3 360 USD/Jahr vs. 17 640 USD/Jahr.  ￼
+	•	CI/CD-Kontingente: Team enthält 3 000 Actions-Minuten/Monat pro Organisation, Enterprise Cloud 50 000/Monat. Minuten gelten organisationsweit, nicht pro User. Mehrbedarf ist zubuchbar oder per Self-Hosted Runner abzufangen.  ￼
+	•	Schlüssel-Features: Verpflichtende Reviews, Branch-Schutz, Code Owners für private Repos sind im Team-Plan enthalten, im Free-Plan fehlen sie. Interne Repositories (org-weit sichtbar, nicht öffentlich) sowie Audit-Log-Streaming, IP-Allow-List, SAML/SCIM und EU-Data-Residency sind Enterprise Cloud.  ￼
+
+⸻
+
+Vergleichstabelle (Kernpunkte)
+
+Quelle für Preise, Inklusiv-Kontingente und Plan-Features: GitHub Pricing/Docs. Details siehe Quellenangaben unter der Tabelle.  ￼
+
+Kriterium	Free (Org)	Team	Enterprise Cloud	Enterprise Server
+Listenpreis	0 USD	4 USD/User/Monat	21 USD/User/Monat	Lizenz/Seat + eigene Infrastruktur
+Private Repos	Ja, eingeschränkt	Ja	Ja	Ja
+Verpflichtende Reviews in privaten Repos	Nein	Ja	Ja	Ja
+Branch-Schutz in privaten Repos	Nein	Ja	Ja	Ja
+Code Owners in privaten Repos	Nein	Ja	Ja	Ja
+GitHub Pages in privaten Repos	Nein	Ja	Ja	Ja
+Actions-Minuten/Monat (Org)	2 000	3 000	50 000	Self-Hosted Runner üblich
+Packages-Speicher inkl.	500 MB	2 GB	50 GB	Self-Hosted/extern
+SSO (SAML), SCIM	Nein	Nein	Ja	Ja
+Audit-Log-Streaming, erweiterte Audit-APIs	Nein	Eingeschränkt	Ja	Ja
+Interne Repositories (org-weit sichtbar)	Nein	Nein	Ja	Ja
+IP-Allow-List	Nein	Eingeschränkt/Org-Level teils	Ja (Enterprise-/Org-Level)	Ja
+Data Residency (EU)	Nein	Nein	Ja (EU-Regionen)	On-Prem nach eigener Richtlinie
+SLA	Community	Web-Support	99,9 % monatlich	Eigene SLA/HA erforderlich
+
+Nachweise: Preise Team/Enterprise, Features, SLA und Kontingente (Actions/Packages)  ￼; fehlende Team-Features im Free-Plan (private Repos: Required Reviewers, Branch-Schutz, Code Owners, Pages, Wikis)  ￼; interne Repos nur mit Enterprise Cloud  ￼; IP-Allow-List/Audit-Log/Policies auf Enterprise-Ebene  ￼; Data Residency in Enterprise Cloud (EU)  ￼; Pages in privaten Repos ab Team  ￼.
+
+⸻
+
+Repository-Vorschlag (Definitionen, Beispiele, Review-Prozess)
+
+Digitale Artefakte: Code, Dokumentation (Markdown, PDF), Diagramme (Mermaid), Vorlagen (JSON, XML), Präsentationen (PPT), Prozessbeschreibungen.
+Interne Artefakte: nur für ASTRA (private Repos).
+Öffentliche Artefakte: offen publiziert (public Repos) oder organisationsweit sichtbar (Enterprise: internal Repos).
+
+Empfohlene Repositories (Auszug)
+	•	astra-intern-doku (privat): Richtlinien, Prozesse, Handbücher, Mermaid.
+	•	astra-vorlagen (privat): JSON/XML-Schemas, Formular-Templates.
+	•	astra-tools-<projekt> (privat → optional public): Python/CLI/Actions.
+	•	astra-public-docs (public): Veröffentlichte Doku, GitHub Pages.  ￼
+	•	astra-oss-<tool> (public): Open-Source-Projekte.
+
+Branching/PR-Regeln (pro Repo)
+	•	main geschützt: nur via PR; ≥1 Review Pflicht; Status-Checks verpflichtend; Admins nicht ausgenommen.
+	•	feature/<kurzbeschreibung> für Änderungen; Squash-Merge Standard.
+	•	CODEOWNERS pflegt Verantwortlichkeiten je Pfad; Required-Reviewers aktiv.  ￼
+
+Visualisierung: Organisations- und Repos-Schnitt
+
+graph LR
+  subgraph ASTRA·GitHub·Organisation
+    direction TB
+    subgraph Interne Repos (privat)
+      A1[astra-intern-doku]
+      A2[astra-vorlagen]
+      A3[astra-tools-projektX]
+    end
+    subgraph Öffentliche Repos
+      B1[astra-public-docs]
+      B2[astra-oss-toolY]
+    end
+  end
+  subgraph Rollen/Teams
+    T1[Maintainer]
+    T2[Reviewer]
+    T3[Contributors]
+  end
+  T1 --> A1 & A2 & A3 & B1 & B2
+  T2 --> A1 & A2 & A3 & B1 & B2
+  T3 --> A3 & B2
+
+Visualisierung: PR-Review-Flow (vereinfachter C4-Ablauf)
+
+flowchart LR
+  Dev[Author] -->|erstellt| F[feature/<topic>]
+  F -->|PR öffnen| PR[Pull Request]
+  PR -->|CI Checks| CI[GitHub Actions]
+  PR -->|Review| Rev[Reviewer gem. CODEOWNERS]
+  Rev -->|Approve| M[Merge in main]
+  CI -->|Status OK erforderlich| M
+
+
+⸻
+
+Kostenübersicht (Richtwerte, Listenpreise)
+
+Nutzer	Team (4 USD/Monat)	Team/Jahr	Enterprise Cloud (21 USD/Monat)	Enterprise/Jahr
+10	40 USD/Monat	480 USD	210 USD/Monat	2 520 USD
+30	120 USD/Monat	1 440 USD	630 USD/Monat	7 560 USD
+70	280 USD/Monat	3 360 USD	1 470 USD/Monat	17 640 USD
+
+Preise gemäß GitHub-Pricing, exkl. MwSt., ohne Add-ons; Actions-Mehrverbrauch separat abgerechnet.  ￼
+
+⸻
+
+Empfehlung für ASTRA
+	•	Kurzfristig: GitHub Team. Begründung: notwendige Governance für private Repos (verpflichtende Reviews, Branch-Schutz, Code Owners), 3 000 Actions-Minuten/Monat für geringe Automation ausreichend, geringste Lizenzkosten.  ￼
+	•	Option: Wechsel auf Enterprise Cloud, sobald gefordert: SSO/SCIM, IP-Allow-List, Audit-Log-Streaming, interne Repositories, EU-Data-Residency, 50 000 Actions-Minuten/Monat.  ￼
+	•	Nicht empfohlen: Enterprise Server bei 10–70 Nutzern ohne zwingende On-Prem-Vorgabe; Mehraufwand für Betrieb, Updates, Backup und Runner-Infrastruktur ohne Funktionsvorteil gegenüber Enterprise Cloud.
