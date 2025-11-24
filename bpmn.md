@@ -1,4 +1,26 @@
 # BPMN
+
+# Techniken
+
+[https://www.linkedin.com/pulse/loops-bpmn-youll-finally-remember-what-iii-mean-filip-stachecki/]
+
+[https://knowhow.visual-paradigm.com/business-process-modeling/bpmn-gateways/]
+
+
+<img width="1156" height="368" alt="image" src="https://github.com/user-attachments/assets/99b2930c-9311-49c5-b586-7745f8d88978" />
+
+
+<img width="850" height="262" alt="image" src="https://github.com/user-attachments/assets/21aa04f9-0f61-4a06-bb9d-0aaefe2fdc0b" />
+
+
+<img width="744" height="200" alt="image" src="https://github.com/user-attachments/assets/5762194a-da55-41e2-b3d0-25035f531f2d" />
+
+
+<img width="744" height="214" alt="image" src="https://github.com/user-attachments/assets/abc71fa4-4788-42e1-82f3-045cbedb3438" />
+
+<img width="744" height="316" alt="image" src="https://github.com/user-attachments/assets/8dd2cf1f-0b3d-4731-a4ef-56c1ee7de838" />
+
+
 # Example: BPMN-like Business Process with Mermaid
 
 ```mermaid
